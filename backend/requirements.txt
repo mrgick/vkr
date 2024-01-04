@@ -1,0 +1,5 @@
+django==4.2.5
+pillow==10.0.1
+django-simpleui==2023.11.16
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
