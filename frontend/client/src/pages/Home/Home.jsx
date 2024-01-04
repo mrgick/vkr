@@ -34,7 +34,7 @@ const Home = (props) => {
       <h1>Последние новости</h1>
       <div className={styles.news}>
         {data.map((x) => (
-          <Link to="/" key={x.id} className={styles.article}>
+          <Link to={`/news/${x.id}`} key={x.id} className={styles.article}>
             <h6>
               <strong>{x.title}</strong>
             </h6>
