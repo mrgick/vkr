@@ -2,15 +2,16 @@ import styles from "./Home.module.css";
 import Layout from "../../components/Layout/Layout";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/uiKit/Title/Title";
+import { Link } from "react-router-dom";
+import { get_last_news } from "../../api/news";
 
 const Home = (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://127.0.0.1:8000/news/last-news/`);
-      const newData = await response.json();
-      setData(newData);
+      const response = await get_last_news();
+      setData(response.data);
     };
 
     fetchData();
@@ -18,7 +19,7 @@ const Home = (props) => {
 
   return (
     <Layout className={styles.layout}>
-      <Title theme="white" text="Кто мы?"/>
+      <Title theme="white" text="Кто мы?" />
       <div className={styles.about}>
         <p>
           Dice Harmony - ваш проводник в мир настольных игр. Мы являемся ведущим
@@ -33,13 +34,13 @@ const Home = (props) => {
       <h1>Последние новости</h1>
       <div className={styles.news}>
         {data.map((x) => (
-          <article key={x.id} className={styles.article}>
+          <Link to="/" key={x.id} className={styles.article}>
             <h6>
               <strong>{x.title}</strong>
             </h6>
             <p>{x.description}</p>
             <p>{new Date(x.date).toLocaleDateString("ru-RU")}</p>
-          </article>
+          </Link>
         ))}
       </div>
     </Layout>
