@@ -2,7 +2,7 @@ import styles from "./Layout.module.css";
 
 const Layout = (props) => {
   return (
-    <main>
+    <main className={props.className}>
       <div className={styles.wrapper}>
         <div className={styles.container}>
             {props.children}

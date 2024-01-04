@@ -16,7 +16,7 @@ const Header = () => {
       </div>
       <nav className={styles.navbar}>
         <input type="checkbox" id="nav-button" />
-        <label for="nav-button">
+        <label htmlFor="nav-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="48"
