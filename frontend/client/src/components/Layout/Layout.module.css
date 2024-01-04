@@ -1,0 +1,24 @@
+main {
+    background: #E8F3F5;
+    min-height: calc(100% - 289px);
+}
+
+.wrapper {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 800px) {
+    main {
+        min-height: 100%;
+    }
+}

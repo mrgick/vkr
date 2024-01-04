@@ -1,0 +1,159 @@
+.logo {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+    background-color: #6AB8C6;
+    display: flex;
+    justify-content: center;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.logo :visited {
+    color: white;
+    text-decoration: none;
+}
+
+.logo svg {
+    height: 130px;
+}
+
+.logo span {
+    padding-left: 10px;
+    font-size: 60px;
+}
+
+.wave {
+    background-color: #6AB8C6;
+    padding-bottom: 20px;
+}
+
+.wave>div {
+    height: 32px;
+    background:
+        radial-gradient(135.16px at 50% calc(100% + 120.00px), #ffffff00 calc(99% - 2px), #ffffff calc(101% - 2px) 99%, #ffffff00 101%) calc(50% - 120px) calc(50% - 31px + .5px)/240px 62px repeat-x,
+        radial-gradient(135.16px at 50% -120px, #ffffff00 calc(99% - 2px), #ffffff calc(101% - 2px) 99%, #ffffff00 101%) 50% calc(50% + 31px)/240px 62px repeat-x;
+
+}
+
+@media only screen and (max-width: 800px) {
+    .logo span {
+        padding-left: 10px;
+        font-size: 50px;
+    }
+}
+
+/* navigation */
+
+
+.navbar>input,
+.navbar>label {
+    display: none;
+}
+
+.navbar {
+    background-color: #6AB8C6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2em;
+}
+
+.navbar-center {
+    gap: 6em;
+}
+
+.navbar-right {
+    margin-right: 50px;
+}
+
+.navbar-left {
+    margin-left: 50px;
+}
+
+
+.navbar-center>a,
+.navbar-right>a {
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+}
+
+
+.navbar-center>a:visited,
+.navbar-right>a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/* a bit animation */
+.navbar-center>a {
+    width: calc(100%);
+    background-image: linear-gradient(transparent calc(100% - 1px), rgb(255, 255, 255) 10px);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    transition: background-size 0.3s;
+}
+
+.navbar-center>a:hover {
+    background-size: 100% 100%;
+}
+
+@media only screen and (max-width: 800px) {
+    .navbar>label {
+        display: block;
+        cursor: pointer;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding-right: 10px;
+        position: static;
+    }
+
+    .navbar-left,
+    .navbar-center,
+    .navbar-right {
+        display: none;
+    }
+
+
+    .navbar>input:checked~.navbar-center {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        gap: 3em;
+    }
+
+    .navbar>input:checked~.navbar-right {
+        display: flex;
+        margin: 0;
+        gap: 4em;
+    }
+
+}
