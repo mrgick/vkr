@@ -3,6 +3,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("categories/", views.ListCategories.as_view(), name="list_categories"),
+    path("products/<int:category>/", views.ListProducts.as_view(), name="list_products"),
+    path("products/", views.ListProducts.as_view(), name="list_products"),
+    path("product/<int:pk>/", views.ItemProduct.as_view(), name="item_product")
     # path("", views.ProductList.as_view(), name="product_list"),
     # path("<int:category>/", views.ProductList.as_view(), name="product_list"),
     # path("product/<int:pk>/", views.ProductDetail.as_view(), name="product_detail"),

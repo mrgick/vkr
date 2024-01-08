@@ -31,7 +31,7 @@ const Home = (props) => {
           пожаловать в увлекательный мир настольных игр с Dice Harmony!
         </p>
       </div>
-      <h1>Последние новости</h1>
+      {data && <Title theme="white" text="Последние новости" />}
       <div className={styles.news}>
         {data.map((x) => (
           <Link to={`/news/${x.id}`} key={x.id} className={styles.article}>
