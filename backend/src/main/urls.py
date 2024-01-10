@@ -1,26 +1,14 @@
-# from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from . import views
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
-    # path("contact/", views.Contact.as_view(), name="contact"),
-    # path("registration/", views.Registration.as_view(), name="registration"),
-    # path("logout/", LogoutView.as_view(), name="logout"),
-    # path(
-    #     "login/",
-    #     LoginView.as_view(
-    #         authentication_form=AuthenticationForm,
-    #         template_name="pages/main/form.html",
-    #         extra_context={
-    #             "title": "Авторизация",
-    #             "action": ".",
-    #             "link": {"name": "Ещё нет аккаунта?", "value": "/registration/"},
-    #             "button": "Войти",
-    #         },
-    #     ),
-    #     name="login",
-    # ),
+    path("is-auth/", views.IsAuth.as_view(), name="is_auth"),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
