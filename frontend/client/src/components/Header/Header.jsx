@@ -32,7 +32,7 @@ const Header = () => {
         <div className={styles["navbar-left"]}></div>
         <div className={styles["navbar-center"]}>
           <Link to='news'>Новости</Link>
-          <Link to='/'>Каталог</Link>
+          <Link to='shop'>Каталог</Link>
           <Link to='about'>Контакты</Link>
         </div>
         <div className={styles["navbar-right"]}>

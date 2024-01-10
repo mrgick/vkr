@@ -13,7 +13,6 @@ const ItemNews = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await get_news(id);
-      console.log(response);
       setObject(response.data);
     };
 

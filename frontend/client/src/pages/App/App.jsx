@@ -5,6 +5,8 @@ import Home from "../Home/Home";
 import Contacts from "../Contacts/Contacts";
 import ListNews from "../ListNews/ListNews"
 import ItemNews from "../ItemNews/ItemNews";
+import ItemProduct from "../ItemProduct/ItemProduct";
+import ListProducts from "../ListProducts/ListProducts"
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
           <Route path="about" element={<Contacts />} />
           <Route path="news" element={<ListNews />} />
           <Route path="news/:id" element={<ItemNews />} />
+          <Route path="shop" element={<ListProducts />} />
+          <Route path="shop/:id" element={<ItemProduct />} />
       </Routes>
       <Footer />
     </>
