@@ -14,3 +14,11 @@ export const refresh = async () =>
   await resolve(
     axios.post(`${API_URL}/token/refresh/`, {}, { withCredentials: true })
   ).then((res) => res.data);
+
+export const logout = async () =>
+  await resolve(
+    axios.post(`${API_URL}/token/delete/`, {}, { withCredentials: true })
+  ).then((res) => res.data);
+
+export const is_auth = async () =>
+  await resolve(axios.get(`${API_URL}/is-auth/`, {})).then((res) => res.data);

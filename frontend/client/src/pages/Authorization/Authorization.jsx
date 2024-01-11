@@ -1,9 +1,17 @@
 import styles from "./Authorization.module.css";
 import Layout from "../../components/Layout/Layout";
-import { auth, refresh } from "../../api/auth";
+import { auth, refresh, logout, is_auth } from "../../api/auth";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Title, Form, FormGroup, Label, Input, Button } from "../../components/uiKit";
+import {
+  Title,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+} from "../../components/uiKit";
+import axios from "axios";
 
 const Authorization = (props) => {
   //   const [data, setData] = useState([]);
@@ -21,10 +29,14 @@ const Authorization = (props) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const value = Object.fromEntries(data.entries());
-    await auth(value.username, value.password)
-    let acess = await refresh()
-    console.log(acess)
-  }
+    await auth(value.username, value.password);
+    let acess = await refresh();
+    console.log(acess.data.access);
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer " + acess.data.access;
+    console.log(await is_auth());
+    await logout();
+  };
   return (
     <Layout className={styles.layout}>
       <Title text="Авторизация" />
@@ -57,7 +69,9 @@ const Authorization = (props) => {
           />
         </FormGroup>
         <FormGroup>
-          <Button type="submit" style={{marginLeft: "auto", marginRight: 0}}>Войти</Button>
+          <Button type="submit" style={{ marginLeft: "auto", marginRight: 0 }}>
+            Войти
+          </Button>
         </FormGroup>
       </Form>
     </Layout>
