@@ -2,7 +2,7 @@ import styles from "./ListNews.module.css";
 import { get_list_news } from "../../api/news";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Title from "../../components/uiKit/Title/Title";
+import { Title } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 
 const ListNews = (props) => {

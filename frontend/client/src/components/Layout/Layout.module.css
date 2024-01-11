@@ -18,6 +18,12 @@ main {
     flex-direction: column;
 }
 
+@media only screen and (max-width: 800px) {
+    main {
+        min-height: calc(100% - 283px);
+    }
+}
+
 @media only screen and (max-width: 400px) {
     .container {
         width: 100%;

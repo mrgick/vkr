@@ -1,7 +1,7 @@
 import styles from "./Home.module.css";
 import Layout from "../../components/Layout/Layout";
 import React, { useEffect, useState } from "react";
-import Title from "../../components/uiKit/Title/Title";
+import { Title } from "../../components/uiKit";
 import { Link } from "react-router-dom";
 import { get_last_news } from "../../api/news";
 

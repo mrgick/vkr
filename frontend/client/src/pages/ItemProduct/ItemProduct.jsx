@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { get_product } from "../../api/products";
 import styles from "./ItemProduct.module.css";
 import Layout from "../../components/Layout/Layout";
-import Title from "../../components/uiKit/Title/Title";
+import { Title } from "../../components/uiKit";
 
 const ItemProduct = (props) => {
   let { id } = useParams();
@@ -25,7 +25,7 @@ const ItemProduct = (props) => {
           <Title text={object.title} />
           <section className={styles["product-top"]}>
             <div className={styles["wrapper-img"]}>
-              <img src={object.image} />
+              <img src={object.image} alt="Изображение товара"/>
             </div>
             <aside className={styles["product-top-middle"]}>
               <div className={styles["wrapper-buy"]}>

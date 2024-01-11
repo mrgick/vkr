@@ -1,6 +1,6 @@
 import styles from "./Contacts.module.css";
 import Layout from "../../components/Layout/Layout";
-import Title from "../../components/uiKit/Title/Title";
+import { Title } from "../../components/uiKit";
 
 const Contacts = (props) => {
   return (

@@ -2,7 +2,7 @@ import styles from "./ItemNews.module.css";
 import { get_news } from "../../api/news";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Title from "../../components/uiKit/Title/Title";
+import { Title } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { useParams } from "react-router-dom";
 
