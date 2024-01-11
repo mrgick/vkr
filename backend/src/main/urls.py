@@ -5,10 +5,11 @@ from rest_framework_simplejwt.views import (
 )
 
 from . import views
+from .jwt import CookieTokenRefreshView, CookieTokenObtainPairView
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("is-auth/", views.IsAuth.as_view(), name="is_auth"),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"),
 ]
