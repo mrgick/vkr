@@ -30,11 +30,23 @@ class CartItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ProductReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("id", "title", "price")
+
+
+class CartItemReadSerializer(CartItemSerializer):
+    product = ProductReadSerializer()
+
+
 class CartSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         cart_items = CartItem.objects.filter(cart=data["id"]).all()
-        data["items"] = CartItemSerializer(cart_items, many=True, read_only=True).data
+        data["items"] = CartItemReadSerializer(
+            cart_items, many=True, read_only=True
+        ).data
         return data
 
     class Meta:
