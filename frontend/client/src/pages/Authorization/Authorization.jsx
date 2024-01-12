@@ -1,6 +1,5 @@
 import styles from "./Authorization.module.css";
 import Layout from "../../components/Layout/Layout";
-import { auth, refresh, logout, is_auth } from "../../api/auth";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -11,31 +10,19 @@ import {
   Input,
   Button,
 } from "../../components/uiKit";
-import axios from "axios";
+import { useAuth } from "../../providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Authorization = (props) => {
-  //   const [data, setData] = useState([]);
-
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       const response = await get_last_news();
-  //       setData(response.data);
-  //     };
-
-  //     fetchData();
-  //   }, []);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const authorize = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const value = Object.fromEntries(data.entries());
-    await auth(value.username, value.password);
-    let acess = await refresh();
-    console.log(acess.data.access);
-    axios.defaults.headers.common["Authorization"] =
-      "Bearer " + acess.data.access;
-    console.log(await is_auth());
-    await logout();
+    await login(value.username, value.password);
+    navigate("/");
   };
   return (
     <Layout className={styles.layout}>

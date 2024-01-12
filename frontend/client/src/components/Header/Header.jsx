@@ -1,12 +1,21 @@
 import Logo from "../images/Logo";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const clickLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <>
       <header className={styles.logo}>
-        <Link to='/'>
+        <Link to="/">
           <Logo />
           <span>Dice Harmony</span>
         </Link>
@@ -31,25 +40,27 @@ const Header = () => {
         </label>
         <div className={styles["navbar-left"]}></div>
         <div className={styles["navbar-center"]}>
-          <Link to='news'>Новости</Link>
-          <Link to='shop'>Каталог</Link>
-          <Link to='about'>Контакты</Link>
+          <Link to="news">Новости</Link>
+          <Link to="shop">Каталог</Link>
+          <Link to="about">Контакты</Link>
         </div>
         <div className={styles["navbar-right"]}>
-          <Link to='/'>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 -960 960 960"
-              width="24"
-            >
-              <path
-                fill="#FFFFFF"
-                d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-              />
-            </svg>
-          </Link>
-          <Link to='login'>
+          {user && (
+            <Link to="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+              >
+                <path
+                  fill="#FFFFFF"
+                  d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+                />
+              </svg>
+            </Link>
+          )}
+          <Link to="login">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"
@@ -62,19 +73,21 @@ const Header = () => {
               />
             </svg>
           </Link>
-          <Link to='/'>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 -960 960 960"
-              width="24"
-            >
-              <path
-                fill="#FFFFFF"
-                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
-              />
-            </svg>
-          </Link>
+          {user && (
+            <a onClick={clickLogout}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+              >
+                <path
+                  fill="#FFFFFF"
+                  d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
+                />
+              </svg>
+            </a>
+          )}
         </div>
       </nav>
     </>
