@@ -1,11 +1,15 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { apiAuth } from "../api";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(localStorage.getItem("user"));
+
+  useEffect(() => {
+    localStorage.setItem("user", user);
+  }, [user]);
 
   const firstLoad = async () => {
     const response = await apiAuth.refresh();

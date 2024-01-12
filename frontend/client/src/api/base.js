@@ -25,6 +25,7 @@ export const resolve = async (promise) => {
           "Bearer " + response.data.access;
       } catch (e) {
         delete axios.defaults.headers.common["Authorization"];
+        localStorage.setItem("user", null)
       }
       try {
         resolved.data = await promise;

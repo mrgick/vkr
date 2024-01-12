@@ -46,7 +46,7 @@ const Header = () => {
         </div>
         <div className={styles["navbar-right"]}>
           {user && (
-            <Link to="/">
+            <Link to="cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24"

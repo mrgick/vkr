@@ -11,20 +11,27 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { refresh } from "../../api/auth";
 import { useAuth } from "../../providers/AuthProvider";
 import axios from "axios";
+import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
+import Cart from "../Cart/Cart";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
+  const [load, setLoad] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       await firstLoad();
+      setLoad(true);
     };
 
     fetchData();
   }, [props.id]);
+  if (!load) {
+    return <></>;
+  }
   return (
     <>
       <Routes>
-        <Route path="/" element={<AppLayout />}>
+        <Route element={<AppLayout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<Contacts />} />
           <Route path="news" element={<ListNews />} />
@@ -32,6 +39,9 @@ const App = (props) => {
           <Route path="shop" element={<ListProducts />} />
           <Route path="shop/:id" element={<ItemProduct />} />
           <Route path="login" element={<Authorization />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="cart" element={<Cart />} />
+          </Route>
         </Route>
       </Routes>
     </>

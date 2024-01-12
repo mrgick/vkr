@@ -1,0 +1,139 @@
+.table-wrapper {
+  margin: 30px 0px;
+  padding: 30px;
+  color: white;
+  background: #6ab8c6;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
+}
+
+table td,
+table th {
+  padding: 15px;
+}
+
+table > thead > tr > th {
+  border-bottom: 2px solid white;
+}
+
+table a:hover {
+  text-decoration: underline;
+}
+
+tbody > tr:last-child td {
+  border-top: 2px solid white;
+  font-weight: bold;
+}
+
+.quantity {
+  color: black;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0px 10px 10px rgba(255, 255, 255, 0.2),
+    10px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+.quantity button {
+  color: black;
+  padding: 5px;
+  background: white;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0 auto;
+}
+
+.quantity button:hover {
+  transform: none;
+}
+
+.quantity form {
+  margin: 0 auto;
+}
+
+.quantity > span {
+  padding: 5px;
+}
+
+form {
+  margin: 0 auto;
+}
+
+.buy-btn {
+  margin: 30px auto;
+  /* background: #268AE0; */
+}
+
+.buy-btn:hover {
+  margin: 30px auto;
+  /* background: #3926E0; */
+}
+
+@media only screen and (max-width: 650px) {
+  .cost {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  table,
+  thead,
+  tbody {
+    display: flex;
+    flex-direction: column;
+  }
+
+  th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  tr {
+    display: grid;
+    grid-template-areas:
+      "title title"
+      "amount price";
+    text-align: center;
+  }
+
+  tr > th:nth-child(1),
+  tr > td:nth-child(1) {
+    font-weight: bold;
+    grid-area: title;
+    border: 0;
+  }
+
+  tr > th:nth-child(3),
+  tr > td:nth-child(3) {
+    grid-area: amount;
+    border: 0;
+    border-top: 0px solid white;
+    border-bottom: 2px solid white;
+  }
+
+  tr > th:nth-child(4),
+  tr > td:nth-child(4) {
+    grid-area: price;
+    border: 0;
+    border-bottom: 2px solid white;
+  }
+
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  tbody > tr:last-child td {
+    border: 0;
+  }
+
+  .table-wrapper {
+    padding: 30px 10px;
+    width: 100%;
+  }
+}
