@@ -1,5 +1,6 @@
-from .models import News
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+
+from .models import News
 from .serializers import NewsSerializer
 
 

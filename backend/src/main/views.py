@@ -1,10 +1,12 @@
-from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 from rest_framework_simplejwt.settings import api_settings
-from .serializers import CookieTokenRefreshSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from .serializers import CookieTokenRefreshSerializer, RegistrationSerializer
 
 
 class HomeView(APIView):
@@ -59,3 +61,7 @@ class CookieTokenRefreshView(TokenRefreshView):
         return super().finalize_response(request, response, *args, **kwargs)
 
     serializer_class = CookieTokenRefreshSerializer
+
+
+class Registration(CreateAPIView):
+    serializer_class = RegistrationSerializer

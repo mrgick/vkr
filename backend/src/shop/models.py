@@ -84,9 +84,6 @@ class Cart(models.Model):
     total = models.DecimalField(
         default=0.00, max_digits=10, decimal_places=2, verbose_name="Итоговая стоимость"
     )
-    items = models.ManyToManyField(
-        Product, through="CartItem", through_fields=("cart", "product")
-    )
 
     def save(self, *args, **kwargs):
         cart_items = CartItem.objects.filter(cart=self.id)
@@ -128,6 +125,10 @@ class CartItem(models.Model):
         return f"{self.product.title} ({self.quantity} шт.) в корзине {self.cart.client.username}"
 
     class Meta:
+        unique_together = (
+            "cart",
+            "product",
+        )
         db_table = "Cart_item"
         verbose_name = "Элемент корзины"
         verbose_name_plural = "Элементы корзины"
