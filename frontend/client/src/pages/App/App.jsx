@@ -13,6 +13,7 @@ import { useAuth } from "../../providers/AuthProvider";
 import axios from "axios";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import Cart from "../Cart/Cart";
+import { Loader } from "../../components/uiKit";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -26,7 +27,7 @@ const App = (props) => {
     fetchData();
   }, [props.id]);
   if (!load) {
-    return <></>;
+    return <Loader/>;
   }
   return (
     <>

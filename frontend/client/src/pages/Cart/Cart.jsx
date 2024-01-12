@@ -4,25 +4,34 @@ import Layout from "../../components/Layout/Layout";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiShop } from "../../api";
-
+import { Loader, Button } from "../../components/uiKit";
 const Cart = (props) => {
   const [object, setObject] = useState(null);
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await apiShop.get_cart();
       if (response) {
-        setObject(response.data)
-    }
+        setObject(response.data);
+        setLoad(false);
+      }
     };
 
     fetchData();
   }, [props.id]);
+  if (load) {
+    return (
+      <Layout>
+        <Loader />
+      </Layout>
+    );
+  }
   return (
     <Layout>
       <Title text="Корзина" />
       <div className={styles["table-wrapper"]}>
-        <table>
+        <table className={styles["table"]}>
           <thead>
             <tr>
               <th>Товар</th>
@@ -36,20 +45,18 @@ const Cart = (props) => {
               {object?.items.map((item) => (
                 <tr key={item.id}>
                   <td>
-                    <Link to={`shop/${item.product.id}`}>{item.product.title}</Link>
+                    <Link to={`shop/${item.product.id}`}>
+                      {item.product.title}
+                    </Link>
                   </td>
                   <td className={styles["cost"]}>{item.product.price} ₽</td>
                   <td>
                     <div className={styles["quantity"]}>
-                      <form method="POST">
-                        <button>-</button>
-                      </form>
+                      <button>-</button>
 
                       <span>{item.quantity}</span>
 
-                      <form method="POST">
-                        <button>+</button>
-                      </form>
+                      <button>+</button>
                     </div>
                   </td>
                   <td>{item.total}₽</td>
@@ -65,11 +72,7 @@ const Cart = (props) => {
           )}
         </table>
       </div>
-      {object?.items && (
-        <form action="." method="POST">
-          <button className={styles["buy-btn"]}>Оформить</button>
-        </form>
-      )}
+      {object?.items && <Button className={styles["buy-btn"]}>Оформить</Button>}
     </Layout>
   );
 };

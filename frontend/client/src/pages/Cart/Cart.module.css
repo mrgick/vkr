@@ -9,20 +9,20 @@
     10px 0px 10px rgba(39, 105, 204, 0.2);
 }
 
-table td,
-table th {
+.table td,
+.table th {
   padding: 15px;
 }
 
-table > thead > tr > th {
+.table > thead > tr > th {
   border-bottom: 2px solid white;
 }
 
-table a:hover {
+.table a:hover {
   text-decoration: underline;
 }
 
-tbody > tr:last-child td {
+.table tbody > tr:last-child td {
   border-top: 2px solid white;
   font-weight: bold;
 }
@@ -45,6 +45,7 @@ tbody > tr:last-child td {
   border-radius: 0;
   box-shadow: none;
   margin: 0 auto;
+  cursor: pointer;
 }
 
 .quantity button:hover {
@@ -57,10 +58,6 @@ tbody > tr:last-child td {
 
 .quantity > span {
   padding: 5px;
-}
-
-form {
-  margin: 0 auto;
 }
 
 .buy-btn {
@@ -80,20 +77,20 @@ form {
 }
 
 @media only screen and (max-width: 550px) {
-  table,
-  thead,
-  tbody {
+  .table,
+  .table thead,
+  .table tbody {
     display: flex;
     flex-direction: column;
   }
 
-  th {
+  .table th {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
   }
 
-  tr {
+  .table tr {
     display: grid;
     grid-template-areas:
       "title title"
@@ -101,23 +98,23 @@ form {
     text-align: center;
   }
 
-  tr > th:nth-child(1),
-  tr > td:nth-child(1) {
+  .table tr > th:nth-child(1),
+  .table tr > td:nth-child(1) {
     font-weight: bold;
     grid-area: title;
     border: 0;
   }
 
-  tr > th:nth-child(3),
-  tr > td:nth-child(3) {
+  .table tr > th:nth-child(3),
+  .table tr > td:nth-child(3) {
     grid-area: amount;
     border: 0;
     border-top: 0px solid white;
     border-bottom: 2px solid white;
   }
 
-  tr > th:nth-child(4),
-  tr > td:nth-child(4) {
+  .table tr > th:nth-child(4),
+  .table tr > td:nth-child(4) {
     grid-area: price;
     border: 0;
     border-bottom: 2px solid white;
@@ -128,7 +125,7 @@ form {
     padding: 10px;
   }
 
-  tbody > tr:last-child td {
+  .table tbody > tr:last-child td {
     border: 0;
   }
 
