@@ -19,10 +19,33 @@ export const get_product = async (id) =>
 export const get_cart = async () =>
   await resolve(axios.get(`${API_URL}/shop/cart/`)).then((res) => res.data);
 
+export const get_cart_products = async () =>
+  await resolve(axios.get(`${API_URL}/shop/cart-products/`)).then(
+    (res) => res.data
+  );
+
 export const update_cart_item = async (product, quantity) =>
+  await resolve(
+    axios.put(`${API_URL}/shop/cart-item/`, {
+      product: product,
+      quantity: quantity,
+    })
+  ).then((res) => res.data);
+
+export const create_cart_item = async (product, quantity) =>
   await resolve(
     axios.post(`${API_URL}/shop/cart-item/`, {
       product: product,
       quantity: quantity,
+    })
+  ).then((res) => res.data);
+
+export const delete_cart_item = async (product, quantity) =>
+  await resolve(
+    axios.delete(`${API_URL}/shop/cart-item/`, {
+      data: {
+        product: product,
+        quantity: quantity,
+      },
     })
   ).then((res) => res.data);

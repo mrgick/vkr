@@ -7,27 +7,25 @@ import ItemNews from "../ItemNews/ItemNews";
 import ItemProduct from "../ItemProduct/ItemProduct";
 import ListProducts from "../ListProducts/ListProducts";
 import Authorization from "../Authorization/Authorization";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { refresh } from "../../api/auth";
+import { useEffect,  useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
-import axios from "axios";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import Cart from "../Cart/Cart";
 import { Loader } from "../../components/uiKit";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
-  const [load, setLoad] = useState(null);
+  const [appLoad, setAppLoad] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       await firstLoad();
-      setLoad(true);
+      setAppLoad(true);
     };
 
     fetchData();
   }, [props.id]);
-  if (!load) {
-    return <Loader/>;
+  if (!appLoad) {
+    return <Loader />;
   }
   return (
     <>

@@ -23,6 +23,7 @@ const Cart = (props) => {
   if (load) {
     return (
       <Layout>
+        <Title text="Корзина" />
         <Loader />
       </Layout>
     );

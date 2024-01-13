@@ -1,21 +1,21 @@
 import styles from "./ListNews.module.css";
-import { get_list_news } from "../../api/news";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Title } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
+import { apiNews } from "../../api";
 
 const ListNews = (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await get_list_news();
+      const response = await apiNews.get_list_news();
       setData(response.data);
     };
 
     fetchData();
-  }, []);
+  }, [props.id]);
 
   return (
     <Layout>
