@@ -23,9 +23,10 @@ class ListProducts(ListAPIView):
 
     def get_queryset(self):
         category = self.kwargs.get("category")
+        queryset = Product.objects.filter(stock=True)
         if category:
-            return Product.objects.filter(category=category).all()
-        return Product.objects.all()
+            queryset = queryset.filter(category=category)
+        return queryset.all()
 
 
 class ItemProduct(RetrieveAPIView):
@@ -38,7 +39,7 @@ class ChangeCart(GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CartItemChangeSerializer
 
-    def post(self, request):
+    def put(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         cart = Cart.objects.filter(client=self.request.user.id).first()
@@ -56,6 +57,26 @@ class ChangeCart(GenericAPIView):
         serializer.save()
         return Response({"detail": "success"})
 
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        cart = Cart.objects.filter(client=self.request.user.id).first()
+        serializer = CartItemSerializer(data={"cart": cart.id, **request.data})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        cart = Cart.objects.filter(client=self.request.user.id).first()
+        instance = CartItem.objects.filter(
+            cart=cart, product=serializer.validated_data["product"]
+        ).first()
+        if instance:
+            instance.delete()
+        return Response({"detail": "success"})
+
 
 class CartRead(RetrieveAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
@@ -64,3 +85,14 @@ class CartRead(RetrieveAPIView):
 
     def get_object(self):
         return Cart.objects.filter(client=self.request.user.id).first()
+
+
+class CartProducts(GenericAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        cart = Cart.objects.filter(client=self.request.user.id).first()
+        return Response(
+            [x.product.id for x in CartItem.objects.filter(cart=cart).all()]
+        )

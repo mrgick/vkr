@@ -10,5 +10,6 @@ urlpatterns = [
     path("products/", views.ListProducts.as_view(), name="list_products"),
     path("product/<int:pk>/", views.ItemProduct.as_view(), name="item_product"),
     path("cart-item/", views.ChangeCart.as_view(), name="cart_item"),
-    path("cart/", views.CartRead.as_view(), name="cart")
+    path("cart/", views.CartRead.as_view(), name="cart"),
+    path("cart-products/", views.CartProducts.as_view(), name="cart_products")
 ]

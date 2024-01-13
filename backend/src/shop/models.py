@@ -98,12 +98,23 @@ class Cart(models.Model):
         db_table = "Cart"
         verbose_name = "корзина"
         verbose_name_plural = "корзины"
+        indexes = [
+            models.Index(
+                fields=[
+                    "client",
+                ]
+            ),
+        ]
 
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name="Корзина")
-    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+    quantity = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Количество",
+        validators=[MinValueValidator(1)],
+    )
     total = models.DecimalField(
         default=0.00, max_digits=10, decimal_places=2, verbose_name="Общая сумма"
     )
@@ -132,6 +143,9 @@ class CartItem(models.Model):
         db_table = "Cart_item"
         verbose_name = "Элемент корзины"
         verbose_name_plural = "Элементы корзины"
+        indexes = [
+            models.Index(fields=["cart", "product"]),
+        ]
 
 
 class Order(models.Model):
