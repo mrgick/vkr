@@ -20,60 +20,86 @@ const Cart = (props) => {
 
     fetchData();
   }, [props.id]);
-  if (load) {
-    return (
-      <Layout>
-        <Title text="Корзина" />
-        <Loader />
-      </Layout>
-    );
-  }
+
+  const changeClick = async (product_id, quantity) => {
+    setLoad(true);
+    if (quantity <= 0) {
+      await apiShop.delete_cart_item(product_id);
+    } else {
+      await apiShop.create_update_cart_item(product_id, quantity);
+    }
+    const response = await apiShop.get_cart();
+    if (response) {
+      setObject(response.data);
+    }
+    setLoad(false);
+  };
+
   return (
     <Layout>
       <Title text="Корзина" />
-      <div className={styles["table-wrapper"]}>
-        <table className={styles["table"]}>
-          <thead>
-            <tr>
-              <th>Товар</th>
-              <th className={styles["cost"]}>Цена за штуку</th>
-              <th>Количество</th>
-              <th>Стоимость</th>
-            </tr>
-          </thead>
-          {object && (
-            <tbody>
-              {object?.items.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    <Link to={`shop/${item.product.id}`}>
-                      {item.product.title}
-                    </Link>
-                  </td>
-                  <td className={styles["cost"]}>{item.product.price} ₽</td>
-                  <td>
-                    <div className={styles["quantity"]}>
-                      <button>-</button>
-
-                      <span>{item.quantity}</span>
-
-                      <button>+</button>
-                    </div>
-                  </td>
-                  <td>{item.total}₽</td>
+      {load && <Loader />}
+      {!load && (
+        <>
+          <div className={styles["table-wrapper"]}>
+            <table className={styles["table"]}>
+              <thead>
+                <tr>
+                  <th>Товар</th>
+                  <th className={styles["cost"]}>Цена за штуку</th>
+                  <th>Количество</th>
+                  <th>Стоимость</th>
                 </tr>
-              ))}
-              <tr>
-                <td>Итого</td>
-                <td className={styles["cost"]}></td>
-                <td>{object.count} шт</td>
-                <td>{object.total} ₽</td>
-              </tr>
-            </tbody>
+              </thead>
+              {object && (
+                <tbody>
+                  {object?.items.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <Link to={`shop/${item.product.id}`}>
+                          {item.product.title}
+                        </Link>
+                      </td>
+                      <td className={styles["cost"]}>{item.product.price} ₽</td>
+                      <td>
+                        <div className={styles["quantity"]}>
+                          <button
+                            onClick={() =>
+                              changeClick(item.product.id, item.quantity - 1)
+                            }
+                          >
+                            -
+                          </button>
+
+                          <span>{item.quantity}</span>
+
+                          <button
+                            onClick={() =>
+                              changeClick(item.product.id, item.quantity + 1)
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>{item.total}₽</td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td>Итого</td>
+                    <td className={styles["cost"]}></td>
+                    <td>{object.count} шт</td>
+                    <td>{object.total} ₽</td>
+                  </tr>
+                </tbody>
+              )}
+            </table>
+          </div>
+          {object?.items && (
+            <Button className={styles["buy-btn"]}>Оформить</Button>
           )}
-        </table>
-      </div>
-      {object?.items && <Button className={styles["buy-btn"]}>Оформить</Button>}
+        </>
+      )}
     </Layout>
   );
 };

@@ -20,8 +20,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class CartItemChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ("product", "quantity")
-        extra_kwargs = {"product": {"required": True}, "quantity": {"required": True}}
+        fields = ("quantity",)
+        extra_kwargs = {"quantity": {"required": True}}
 
 
 class CartItemSerializer(serializers.ModelSerializer):

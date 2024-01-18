@@ -1,4 +1,4 @@
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
@@ -39,40 +39,23 @@ class ChangeCart(GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CartItemChangeSerializer
 
-    def put(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def post(self, request, product_id):
+        product = Product.objects.filter(id=product_id).first()
+        if product is None:
+            return Response(status=404, data={"message": "Product not found"})
         cart = Cart.objects.filter(client=self.request.user.id).first()
-        instance = CartItem.objects.filter(
-            cart=cart, product=serializer.validated_data["product"]
-        ).first()
-        if serializer.validated_data["quantity"] == 0:
-            if instance is not None:
-                instance.delete()
-            return Response({"detail": "success"})
-        serializer = CartItemSerializer(
-            instance, data={"cart": cart.id, **request.data}
-        )
+        instance = CartItem.objects.filter(cart=cart, product=product).first()
+        serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"detail": "success"})
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        cart = Cart.objects.filter(client=self.request.user.id).first()
-        serializer = CartItemSerializer(data={"cart": cart.id, **request.data})
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if instance is None:
+            serializer.save(cart=cart, product=product)
+        else:
+            serializer.save()
         return Response(serializer.data)
 
-    def delete(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def delete(self, request, product_id):
         cart = Cart.objects.filter(client=self.request.user.id).first()
-        instance = CartItem.objects.filter(
-            cart=cart, product=serializer.validated_data["product"]
-        ).first()
+        instance = CartItem.objects.filter(cart=cart, product=product_id).first()
         if instance:
             instance.delete()
         return Response({"detail": "success"})
@@ -96,3 +79,6 @@ class CartProducts(GenericAPIView):
         return Response(
             [x.product.id for x in CartItem.objects.filter(cart=cart).all()]
         )
+
+class CreateOrder(CreateAPIView):
+    pass

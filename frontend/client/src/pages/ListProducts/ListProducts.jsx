@@ -44,7 +44,7 @@ const ListProducts = (props) => {
       return;
     }
     setLoading((prev) => new Set(prev).add(product));
-    const resp = await apiShop.create_cart_item(product, 1);
+    const resp = await apiShop.create_update_cart_item(product, 1);
     if (resp) {
       setCart((prev) => new Set(prev).add(product));
     }
@@ -60,7 +60,7 @@ const ListProducts = (props) => {
       return;
     }
     setLoading((prev) => new Set(prev).add(product));
-    const resp = await apiShop.delete_cart_item(product, 1);
+    const resp = await apiShop.delete_cart_item(product);
     if (resp) {
       setCart((prev) => {
         let c = new Set(prev);

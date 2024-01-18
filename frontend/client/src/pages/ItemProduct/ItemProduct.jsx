@@ -32,7 +32,7 @@ const ItemProduct = (props) => {
       return;
     }
     setLoading(true);
-    const resp = await apiShop.create_cart_item(object.id, 1);
+    const resp = await apiShop.create_update_cart_item(object.id, 1);
     if (resp) {
       setInCart(true);
     }
@@ -44,7 +44,7 @@ const ItemProduct = (props) => {
       return;
     }
     setLoading(true);
-    const resp = await apiShop.delete_cart_item(object.id, 1);
+    const resp = await apiShop.delete_cart_item(object.id);
     if (resp) {
       setInCart(false);
     }
