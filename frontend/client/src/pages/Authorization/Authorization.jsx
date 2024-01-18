@@ -15,14 +15,19 @@ import { useNavigate } from "react-router-dom";
 
 const Authorization = (props) => {
   const { login } = useAuth();
+  const [ error, setError ] = useState(null);
   const navigate = useNavigate();
 
   const authorize = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const value = Object.fromEntries(data.entries());
-    await login(value.username, value.password);
-    navigate("/");
+    let res = await login(value.username, value.password);
+    if (res) {
+      navigate("/");
+    } else {
+      setError("Неправильно введено имя пользователя или пароль")
+    }
   };
   return (
     <Layout className={styles.layout}>
@@ -55,6 +60,7 @@ const Authorization = (props) => {
             id="id_password"
           />
         </FormGroup>
+        {!!error && error}
         <FormGroup>
           <Button type="submit" style={{ marginLeft: "auto", marginRight: 0 }}>
             Войти
