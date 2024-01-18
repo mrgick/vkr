@@ -35,3 +35,9 @@ export const delete_cart_item = async (product) =>
   await resolve(axios.delete(`${API_URL}/shop/cart-item/${product}/`)).then(
     (res) => res.data
   );
+
+export const create_order = async () =>
+  await resolve(axios.post(`${API_URL}/shop/orders/`)).then((res) => res.data);
+
+export const get_orders = async () =>
+  await resolve(axios.get(`${API_URL}/shop/orders/`)).then((res) => res.data);

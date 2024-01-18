@@ -168,9 +168,6 @@ class Order(models.Model):
     date = models.DateTimeField(
         default=timezone.now, db_index=True, verbose_name="Дата заказа"
     )
-    items = models.ManyToManyField(
-        Product, through="OrderItem", through_fields=("order", "product")
-    )
 
     def calculate(self):
         items = OrderItem.objects.filter(order=self.id)
@@ -186,6 +183,13 @@ class Order(models.Model):
         ordering = ["-date"]
         verbose_name = "заказ"
         verbose_name_plural = "заказы"
+        indexes = [
+            models.Index(
+                fields=[
+                    "client",
+                ]
+            ),
+        ]
 
 
 class OrderItem(models.Model):
@@ -193,7 +197,11 @@ class OrderItem(models.Model):
         Product, null=True, on_delete=models.SET_NULL, verbose_name="Товар"
     )
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ")
-    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+    quantity = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Количество",
+        validators=[MinValueValidator(1)],
+    )
     total = models.DecimalField(
         default=0.00, max_digits=10, decimal_places=2, verbose_name="Общая сумма"
     )
@@ -209,3 +217,10 @@ class OrderItem(models.Model):
         db_table = "Order_item"
         verbose_name = "Элемент заказа"
         verbose_name_plural = "Элементы заказа"
+        unique_together = (
+            "order",
+            "product",
+        )
+        indexes = [
+            models.Index(fields=["order", "product"]),
+        ]

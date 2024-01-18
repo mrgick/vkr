@@ -1,12 +1,16 @@
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 
-from .models import Cart, CartItem, Category, Product
+from .models import Cart, CartItem, Category, Product, Order, OrderItem
 from .serializers import (
     CartItemChangeSerializer,
-    CartItemSerializer,
+    OrderSerializer,
     CartSerializer,
     CategorySerializer,
     ProductSerializer,
@@ -42,7 +46,7 @@ class ChangeCart(GenericAPIView):
     def post(self, request, product_id):
         product = Product.objects.filter(id=product_id).first()
         if product is None:
-            return Response(status=404, data={"message": "Product not found"})
+            return Response(status=404, data={"detail": "Product not found"})
         cart = Cart.objects.filter(client=self.request.user.id).first()
         instance = CartItem.objects.filter(cart=cart, product=product).first()
         serializer = self.get_serializer(instance, data=request.data)
@@ -80,5 +84,30 @@ class CartProducts(GenericAPIView):
             [x.product.id for x in CartItem.objects.filter(cart=cart).all()]
         )
 
-class CreateOrder(CreateAPIView):
-    pass
+
+class OrdersView(ListAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user.id).all()
+
+    def post(self, request):
+        cart = Cart.objects.filter(client=request.user.id).first()
+        if cart.count == 0:
+            return Response(status=400, data={"detail": "Cart is empty"})
+        order = Order(client_id=request.user.id, status=0, count=cart.count, total=cart.total)
+        order.save()
+        for cart_item in CartItem.objects.filter(cart=cart):
+            order_item = OrderItem(
+                order=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                total=cart_item.total,
+            )
+            order_item.calculate()
+            cart_item.delete()
+        order.calculate()
+        cart.save()
+        return Response(data={"detail": "success"}, status=201)

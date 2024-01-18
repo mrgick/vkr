@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Cart, CartItem, Category, Product
+from .models import Cart, CartItem, Category, Product, Order, OrderItem
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -51,4 +51,24 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
+        fields = "__all__"
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductReadSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        items = OrderItem.objects.filter(order=data["id"]).all()
+        data["items"] = OrderItemSerializer(items, many=True, read_only=True).data
+        return data
+
+    class Meta:
+        model = Order
         fields = "__all__"

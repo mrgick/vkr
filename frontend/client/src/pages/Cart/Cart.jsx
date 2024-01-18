@@ -35,6 +35,12 @@ const Cart = (props) => {
     setLoad(false);
   };
 
+  const createOrder = async () => {
+    setLoad(true);
+    await apiShop.create_order();
+    await apiShop.get_orders();
+  };
+
   return (
     <Layout>
       <Title text="Корзина" />
@@ -95,8 +101,10 @@ const Cart = (props) => {
               )}
             </table>
           </div>
-          {object?.items && (
-            <Button className={styles["buy-btn"]}>Оформить</Button>
+          {object?.count > 0 && (
+            <Button className={styles["buy-btn"]} onClick={() => createOrder()}>
+              Оформить
+            </Button>
           )}
         </>
       )}
