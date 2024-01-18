@@ -12,6 +12,7 @@ import { useAuth } from "../../providers/AuthProvider";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import Cart from "../Cart/Cart";
 import { Loader } from "../../components/uiKit";
+import ListOrders from "../ListOrders/ListOrders";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -40,6 +41,7 @@ const App = (props) => {
           <Route path="login" element={<Authorization />} />
           <Route element={<ProtectedRoute />}>
             <Route path="cart" element={<Cart />} />
+            <Route path="orders" element={<ListOrders />}/>
           </Route>
         </Route>
       </Routes>

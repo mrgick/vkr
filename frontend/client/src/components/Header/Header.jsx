@@ -60,7 +60,7 @@ const Header = () => {
               </svg>
             </Link>
           )}
-          <Link to="login">
+          <Link to={user ? "orders" : "login"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"

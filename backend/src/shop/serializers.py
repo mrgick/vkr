@@ -63,6 +63,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(source='get_status_display')
     def to_representation(self, instance):
         data = super().to_representation(instance)
         items = OrderItem.objects.filter(order=data["id"]).all()

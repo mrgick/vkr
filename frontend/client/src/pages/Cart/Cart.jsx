@@ -5,9 +5,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiShop } from "../../api";
 import { Loader, Button } from "../../components/uiKit";
+import { useNavigate } from "react-router-dom";
+
 const Cart = (props) => {
   const [object, setObject] = useState(null);
   const [load, setLoad] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +42,7 @@ const Cart = (props) => {
     setLoad(true);
     await apiShop.create_order();
     await apiShop.get_orders();
+    navigate("/orders")
   };
 
   return (
