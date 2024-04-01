@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
+from dotenv import dotenv_values
+
+ENV_CONFIG = dotenv_values(".env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-8vchn29$l&ftwo13tx00cyc1$474cz9*-kkqqr6=e0atmm$r%k"
+SECRET_KEY = ENV_CONFIG["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -151,3 +154,16 @@ MEDIA_URL = "media/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+RESET_PASSWORD_URL = ENV_CONFIG["RESET_PASSWORD_URL"]
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = ENV_CONFIG["EMAIL_HOST"]
+EMAIL_PORT = ENV_CONFIG["EMAIL_PORT"]
+EMAIL_USE_SSL = ENV_CONFIG["EMAIL_USE_SSL"]
+
+EMAIL_HOST_USER = ENV_CONFIG["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = ENV_CONFIG["EMAIL_HOST_PASSWORD"]
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

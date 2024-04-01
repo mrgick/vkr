@@ -3,7 +3,6 @@ import styles from "./FormError.module.css";
 import { getClassName, getProps, getStyle } from "../../base";
 
 export const FormError = (props) => {
-  console.log(props.elements)
   const style = useMemo(() => getStyle(props.style), [props.style]);
   return (
     <ul

@@ -7,13 +7,15 @@ import ItemNews from "../ItemNews/ItemNews";
 import ItemProduct from "../ItemProduct/ItemProduct";
 import ListProducts from "../ListProducts/ListProducts";
 import Authorization from "../Authorization/Authorization";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import Cart from "../Cart/Cart";
 import { Loader } from "../../components/uiKit";
 import ListOrders from "../ListOrders/ListOrders";
 import Registration from "../Registration/Registration";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import ForgotPasswordConfirmation from "../ForgotPasswordConfirmation/ForgotPasswordConfirmation";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -41,9 +43,14 @@ const App = (props) => {
           <Route path="shop/:id" element={<ItemProduct />} />
           <Route path="login" element={<Authorization />} />
           <Route path="registrate" element={<Registration />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="forgot-password-confirmation"
+            element={<ForgotPasswordConfirmation />}
+          />
           <Route element={<ProtectedRoute />}>
             <Route path="cart" element={<Cart />} />
-            <Route path="orders" element={<ListOrders />}/>
+            <Route path="orders" element={<ListOrders />} />
           </Route>
         </Route>
       </Routes>

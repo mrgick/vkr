@@ -23,8 +23,9 @@ const Authorization = (props) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const value = Object.fromEntries(data.entries());
-    let res = await login(value.username, value.password);
-    if (res) {
+    let user = await login(value.username, value.password);
+    console.log(user);
+    if (!!user) {
       navigate("/");
     } else {
       setError(["Неправильно введено имя пользователя или пароль"]);
@@ -67,20 +68,20 @@ const Authorization = (props) => {
           </FormGroup>
         )}
         <FormGroup>
-          <Link to="" style={{ marginLeft: 0, marginRight: "auto" }}>
-            <Button style={{ backgroundColor: "#69B6FA" }}>
-              Забыли пароль?
-            </Button>
-          </Link>
           <Button
             type="submit"
-            style={{ width: "200px", marginLeft: "auto", marginRight: 0 }}
+            style={{ width: "100%", marginLeft: "auto", marginRight: 0 }}
           >
             Войти
           </Button>
         </FormGroup>
       </Form>
-      <Link to="/registrate">
+      <Link to="/forgot-password" style={{ marginBottom: "30px" }}>
+        <Button style={{ width: "100%", backgroundColor: "#69B6FA" }}>
+          Забыли пароль?
+        </Button>
+      </Link>
+      <Link to="/registrate" style={{ marginBottom: "30px" }}>
         <Button style={{ width: "100%", backgroundColor: "#69B6FA" }}>
           Ещё нет аккаунта?
         </Button>

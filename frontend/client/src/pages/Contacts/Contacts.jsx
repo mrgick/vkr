@@ -12,11 +12,11 @@ const Contacts = (props) => {
             <td>E-mail</td>
             <td>
               <a
-                href="mailto:dharmony@yandex.ru"
+                href="mailto:dice-harmony@yandex.ru"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                dharmony@yandex.ru
+                dice-harmony@yandex.ru
               </a>
             </td>
           </tr>

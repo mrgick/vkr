@@ -30,11 +30,12 @@ const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + response.data.access;
       setUser(true);
+      return true;
     } else {
       delete axios.defaults.headers.common["Authorization"];
       setUser(false);
+      return false;
     }
-    return user;
   };
 
   const logout = async () => {

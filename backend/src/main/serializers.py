@@ -33,7 +33,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=320, allow_blank=False, allow_null=False)
 
     def validate_password2(self, password2):
-        print(password2, self.initial_data["password1"])
         password1 = self.initial_data["password1"]
         if password1 and password2 and password1 != password2:
             raise serializers.ValidationError("Введенные пароли не совпадают.")
@@ -64,3 +63,26 @@ class RegistrationSerializer(serializers.ModelSerializer):
             "password2",
         )
         read_only_fields = ("id",)
+
+
+class ResetPasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("email",)
+
+
+class ResetPasswordConfirmationSerializer(serializers.Serializer):
+    password1 = serializers.CharField(
+        max_length=128, allow_blank=False, allow_null=False
+    )
+    password2 = serializers.CharField(
+        max_length=128, allow_blank=False, allow_null=False
+    )
+    id = serializers.IntegerField()
+    token = serializers.CharField(max_length=320, allow_blank=False, allow_null=False)
+
+    def validate_password2(self, password2):
+        password1 = self.initial_data["password1"]
+        if password1 and password2 and password1 != password2:
+            raise serializers.ValidationError("Введенные пароли не совпадают.")
+        return password2

@@ -39,3 +39,21 @@ export const registration = async (
     password1: password1,
     password2: password2,
   });
+
+export const reset_password = async (email) =>
+  await axios.post(`${API_URL}/reset-password/`, {
+    email: email,
+  });
+
+export const reset_password_confirmation = async (
+  id,
+  token,
+  password1,
+  password2
+) =>
+  await axios.post(`${API_URL}/reset-password-confirmation/`, {
+    password1: password1,
+    password2: password2,
+    id: id,
+    token: token,
+  });
