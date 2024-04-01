@@ -1,0 +1,8 @@
+.error {
+  font-size: 16px;
+  color: red;
+  font-weight: bold;
+}
+.error_element {
+  margin-bottom: 10px;
+}

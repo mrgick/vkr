@@ -1,6 +1,6 @@
 import styles from "./Authorization.module.css";
 import Layout from "../../components/Layout/Layout";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Title,
@@ -9,13 +9,14 @@ import {
   Label,
   Input,
   Button,
+  FormError,
 } from "../../components/uiKit";
 import { useAuth } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const Authorization = (props) => {
   const { login } = useAuth();
-  const [ error, setError ] = useState(null);
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
 
   const authorize = async (e) => {
@@ -26,7 +27,7 @@ const Authorization = (props) => {
     if (res) {
       navigate("/");
     } else {
-      setError("Неправильно введено имя пользователя или пароль")
+      setError(["Неправильно введено имя пользователя или пароль"]);
     }
   };
   return (
@@ -40,7 +41,7 @@ const Authorization = (props) => {
           <Input
             type="text"
             name="username"
-            autoFocus=""
+            autoFocus
             autoCapitalize="none"
             autoComplete="username"
             maxLength="150"
@@ -60,13 +61,30 @@ const Authorization = (props) => {
             id="id_password"
           />
         </FormGroup>
-        {!!error && error}
+        {!!error && (
+          <FormGroup>
+            <FormError elements={error} />
+          </FormGroup>
+        )}
         <FormGroup>
-          <Button type="submit" style={{ marginLeft: "auto", marginRight: 0 }}>
+          <Link to="" style={{ marginLeft: 0, marginRight: "auto" }}>
+            <Button style={{ backgroundColor: "#69B6FA" }}>
+              Забыли пароль?
+            </Button>
+          </Link>
+          <Button
+            type="submit"
+            style={{ width: "200px", marginLeft: "auto", marginRight: 0 }}
+          >
             Войти
           </Button>
         </FormGroup>
       </Form>
+      <Link to="/registrate">
+        <Button style={{ width: "100%", backgroundColor: "#69B6FA" }}>
+          Ещё нет аккаунта?
+        </Button>
+      </Link>
     </Layout>
   );
 };

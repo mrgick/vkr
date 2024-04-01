@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Cart, CartItem, Category, Product, Order, OrderItem
+from .models import Cart, CartItem, Category, Order, OrderItem, Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -63,7 +63,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    status = serializers.CharField(source='get_status_display')
+    status = serializers.CharField(source="get_status_display")
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         items = OrderItem.objects.filter(order=data["id"]).all()

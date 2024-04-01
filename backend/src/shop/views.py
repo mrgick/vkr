@@ -1,18 +1,14 @@
-from rest_framework.generics import (
-    GenericAPIView,
-    ListAPIView,
-    RetrieveAPIView,
-)
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 
-from .models import Cart, CartItem, Category, Product, Order, OrderItem
+from .models import Cart, CartItem, Category, Order, OrderItem, Product
 from .serializers import (
     CartItemChangeSerializer,
-    OrderSerializer,
     CartSerializer,
     CategorySerializer,
+    OrderSerializer,
     ProductSerializer,
 )
 
@@ -97,7 +93,9 @@ class OrdersView(ListAPIView):
         cart = Cart.objects.filter(client=request.user.id).first()
         if cart.count == 0:
             return Response(status=400, data={"detail": "Cart is empty"})
-        order = Order(client_id=request.user.id, status=0, count=cart.count, total=cart.total)
+        order = Order(
+            client_id=request.user.id, status=0, count=cart.count, total=cart.total
+        )
         order.save()
         for cart_item in CartItem.objects.filter(cart=cart):
             order_item = OrderItem(
