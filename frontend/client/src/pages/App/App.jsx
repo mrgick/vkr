@@ -16,6 +16,7 @@ import ListOrders from "../ListOrders/ListOrders";
 import Registration from "../Registration/Registration";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ForgotPasswordConfirmation from "../ForgotPasswordConfirmation/ForgotPasswordConfirmation";
+import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -47,6 +48,10 @@ const App = (props) => {
           <Route
             path="forgot-password-confirmation"
             element={<ForgotPasswordConfirmation />}
+          />
+          <Route
+            path="registrate-confirmation"
+            element={<RegistrationConfirmation />}
           />
           <Route element={<ProtectedRoute />}>
             <Route path="cart" element={<Cart />} />

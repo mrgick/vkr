@@ -1,7 +1,10 @@
+from datetime import timedelta
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework_simplejwt.tokens import Token
 
 from shop.models import Cart
 
@@ -15,6 +18,21 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
             return super().validate(attrs)
         else:
             raise InvalidToken("No valid token found in cookie 'refresh_token'")
+
+
+class TokenConfirmation(Token):
+    lifetime = timedelta(days=1)
+    token_type = "access"
+
+
+class TokenConfirmationSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length=10000, allow_blank=False, allow_null=False)
+
+    def validate_token(self, value):
+        try:
+            return TokenConfirmation(token=value).payload["data"]
+        except Exception:
+            raise serializers.ValidationError("Токен не валиден.")  # noqa: B904
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -36,6 +54,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
         password1 = self.initial_data["password1"]
         if password1 and password2 and password1 != password2:
             raise serializers.ValidationError("Введенные пароли не совпадают.")
+        return password2
+
+    def validate_email(self, email):
+        if User.objects.filter(email=email).exists():
+            raise serializers.ValidationError(
+                "Пользователь с данным email уже зарегистрирован."
+            )
+        return email
 
     def create(self, validated_data):
         user = User.objects.create(

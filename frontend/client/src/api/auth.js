@@ -57,3 +57,8 @@ export const reset_password_confirmation = async (
     id: id,
     token: token,
   });
+
+export const registration_confirmation = async (token) =>
+  await axios.post(`${API_URL}/registration-confirmation/`, {
+    token: token,
+  });

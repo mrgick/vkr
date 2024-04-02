@@ -11,6 +11,11 @@ urlpatterns = [
     ),
     path("token/delete/", views.Logout.as_view(), name="token_delete"),
     path("registration/", views.Registration.as_view(), name="registration"),
+    path(
+        "registration-confirmation/",
+        views.RegistrationConfirmation.as_view(),
+        name="registration_confirmation",
+    ),
     path("reset-password/", views.ResetPassword.as_view(), name="reset_password"),
     path(
         "reset-password-confirmation/",

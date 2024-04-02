@@ -16,6 +16,8 @@ from .serializers import (
     RegistrationSerializer,
     ResetPasswordConfirmationSerializer,
     ResetPasswordSerializer,
+    TokenConfirmation,
+    TokenConfirmationSerializer,
 )
 
 
@@ -78,7 +80,32 @@ class Registration(GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        token = TokenConfirmation()
+        token.payload.update({"data": serializer.validated_data})
+        url = f"{settings.CONFIRM_REGISTRATION_URL}?&token={str(token)}"
+        send_mail(
+            "Подтверждение регистрации",
+            f"Ссылка на подтверждение регистрации: {url}",
+            settings.EMAIL_HOST_USER,
+            [serializer.validated_data["email"]],
+            fail_silently=False,
+        )
+        return Response({"status": "success"})
+
+
+class RegistrationConfirmation(GenericAPIView):
+    serializer_class = TokenConfirmationSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = RegistrationSerializer(data=serializer.validated_data["token"])
+        if not user.is_valid():
+            return Response(
+                {"status": "Токен не валиден."},
+                status.HTTP_400_BAD_REQUEST,
+            )
+        user.save()
         return Response({"status": "success"})
 
 
@@ -94,7 +121,7 @@ class ResetPassword(GenericAPIView):
         send_mail(
             "Восстановление пароля",
             f"Ссылка на изменение пароля: {url}",
-            "dice-harmony@yandex.ru",
+            settings.EMAIL_HOST_USER,
             [user.email],
             fail_silently=False,
         )
@@ -116,8 +143,6 @@ class ResetPasswordConfirmation(GenericAPIView):
                 {"status": "Время ожидания смены пароля истекло"},
                 status.HTTP_400_BAD_REQUEST,
             )
-        print(serializer.validated_data)
         user.set_password(serializer.validated_data["password2"])
         user.save()
-        print(user.username, user.password)
         return Response({"status": "success"})
