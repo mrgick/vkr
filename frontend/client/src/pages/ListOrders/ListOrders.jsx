@@ -5,7 +5,7 @@ import { Title } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop } from "../../api";
 import { useAuth } from "../../providers/AuthProvider";
-
+import { TitleLinks } from "../../components/uiKit";
 const ListOrders = (props) => {
   const [orders, setOrders] = useState([]);
 
@@ -18,9 +18,30 @@ const ListOrders = (props) => {
     fetchData();
   }, [props.id]);
 
+  const get_status_color = (status) => {
+    switch (status) {
+      case "В обработке":
+        return "rgb(242, 180, 63)";
+      case "Ожидает выдачи":
+        return "#6AB8C6";
+      case "Завершён":
+        return "#B4DEE6";
+      default:
+        return "#6AB8C6";
+    }
+  };
+
   return (
     <Layout>
-      <Title text="Заказы" />
+      <TitleLinks
+        links={[
+          { to: "/orders", text: "Заказы", active: true },
+          { to: "/profile", text: "Профиль" },
+        ]}
+      />
+      {orders.length === 0 && (
+        <div className={styles["list-empty"]}>Список заказов пуст</div>
+      )}
       {orders.map((order, id) => (
         <section key={order.id} className={styles["section"]}>
           <input
@@ -33,7 +54,13 @@ const ListOrders = (props) => {
               <strong>Заказ #{order.id}</strong> от{" "}
               {new Date(order.date).toLocaleDateString("ru-RU")}
             </p>
-            <div className={styles["status"]}>{order.status}</div>
+            {console.log(order.status === "В обработке")}
+            <div
+              className={styles["status"]}
+              style={{ backgroundColor: get_status_color(order.status) }}
+            >
+              {order.status}
+            </div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="48"
