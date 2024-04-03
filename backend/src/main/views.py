@@ -3,16 +3,21 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
+from rest_framework_simplejwt.authentication import (
+    JWTAuthentication,
+    JWTStatelessUserAuthentication,
+)
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .serializers import (
+    ChangePasswordSerializer,
     CookieTokenRefreshSerializer,
+    ProfileSerializer,
     RegistrationSerializer,
     ResetPasswordConfirmationSerializer,
     ResetPasswordSerializer,
@@ -143,6 +148,29 @@ class ResetPasswordConfirmation(GenericAPIView):
                 {"status": "Время ожидания смены пароля истекло"},
                 status.HTTP_400_BAD_REQUEST,
             )
+        user.set_password(serializer.validated_data["password2"])
+        user.save()
+        return Response({"status": "success"})
+
+
+class ProfileView(RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+class ChangePasswordView(GenericAPIView):
+    serializer_class = ChangePasswordSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.request.user
         user.set_password(serializer.validated_data["password2"])
         user.save()
         return Response({"status": "success"})

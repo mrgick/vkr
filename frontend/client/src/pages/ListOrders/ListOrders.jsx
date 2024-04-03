@@ -8,11 +8,13 @@ import { useAuth } from "../../providers/AuthProvider";
 import { TitleLinks } from "../../components/uiKit";
 const ListOrders = (props) => {
   const [orders, setOrders] = useState([]);
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await apiShop.get_orders();
       setOrders(res?.data);
+      setLoad(false);
     };
 
     fetchData();
@@ -39,7 +41,7 @@ const ListOrders = (props) => {
           { to: "/profile", text: "Профиль" },
         ]}
       />
-      {orders.length === 0 && (
+      {!load && orders.length === 0 && (
         <div className={styles["list-empty"]}>Список заказов пуст</div>
       )}
       {orders.map((order, id) => (

@@ -1,6 +1,8 @@
 from datetime import timedelta
 
+from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
@@ -63,6 +65,18 @@ class RegistrationSerializer(serializers.ModelSerializer):
             )
         return email
 
+    def validate(self, data):
+        errors = {}
+        try:
+            password_validation.validate_password(data["password1"])
+        except ValidationError as e:
+            for i, x in enumerate(e.messages):
+                errors[f"password-{i}"] = x
+
+        if errors:
+            raise serializers.ValidationError(errors)
+        return data
+
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data["username"],
@@ -107,8 +121,65 @@ class ResetPasswordConfirmationSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     token = serializers.CharField(max_length=320, allow_blank=False, allow_null=False)
 
+    def validate(self, data):
+        errors = {}
+        try:
+            password_validation.validate_password(data["password1"])
+        except ValidationError as e:
+            for i, x in enumerate(e.messages):
+                errors[f"password-{i}"] = x
+
+        if errors:
+            raise serializers.ValidationError(errors)
+        return data
+
     def validate_password2(self, password2):
         password1 = self.initial_data["password1"]
         if password1 and password2 and password1 != password2:
             raise serializers.ValidationError("Введенные пароли не совпадают.")
+        return password2
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+        )
+        read_only_fields = ("id", "username")
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length=128, required=True)
+    password1 = serializers.CharField(max_length=128, required=True)
+    password2 = serializers.CharField(max_length=128, required=True)
+
+    def validate_password(self, value):
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Текущий пароль введён неверно.")
+        return value
+
+    def validate(self, data):
+        errors = {}
+        try:
+            password_validation.validate_password(
+                data["password1"], self.context["request"].user
+            )
+        except ValidationError as e:
+            for i, x in enumerate(e.messages):
+                errors[f"password-{i}"] = x
+
+        if errors:
+            raise serializers.ValidationError(errors)
+        return data
+
+    def validate_password2(self, password2):
+        password1 = self.initial_data["password1"]
+        if password1 and password2 and password1 != password2:
+            raise serializers.ValidationError("Введенные новые пароли не совпадают.")
         return password2

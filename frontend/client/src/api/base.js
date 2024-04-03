@@ -5,11 +5,13 @@ export const API_URL = "http://127.0.0.1:8000";
 export const resolve = async (promise) => {
   const resolved = {
     data: null,
+    error: null,
   };
 
   try {
     resolved.data = await promise;
   } catch (e) {
+    resolved.error = e;
     console.log(e);
     if (
       e?.response?.status === 401 &&
@@ -25,11 +27,12 @@ export const resolve = async (promise) => {
           "Bearer " + response.data.access;
       } catch (e) {
         delete axios.defaults.headers.common["Authorization"];
-        localStorage.setItem("user", null)
+        localStorage.setItem("user", null);
       }
       try {
         resolved.data = await promise;
       } catch (e) {
+        resolved.error = e;
         console.log(e);
       }
     }

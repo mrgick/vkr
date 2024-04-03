@@ -18,6 +18,7 @@ import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ForgotPasswordConfirmation from "../ForgotPasswordConfirmation/ForgotPasswordConfirmation";
 import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 import Profile from "../Profile/Profile";
+import ChangePassword from "../ChangePassword/ChangePassword";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -58,6 +59,7 @@ const App = (props) => {
             <Route path="cart" element={<Cart />} />
             <Route path="orders" element={<ListOrders />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="change-password" element={<ChangePassword />} />
           </Route>
         </Route>
       </Routes>
