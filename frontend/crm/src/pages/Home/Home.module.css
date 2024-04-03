@@ -1,0 +1,10 @@
+.layout {
+    color: white;
+    background: radial-gradient(at center, rgb(107, 124, 200), rgb(107, 185, 199));
+}
+
+.about>p {
+    margin: 20px 0;
+    line-height: 30px;
+    text-align: justify;
+}
