@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "main",
     "news",
     "shop",
+    "crm",
 ]
 
 REST_FRAMEWORK = {
