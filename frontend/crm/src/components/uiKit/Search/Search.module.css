@@ -1,0 +1,28 @@
+.input {
+  border: 4px solid #6ab8c6;
+  border-radius: 0.5em;
+  padding: 20px;
+  box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
+  background-color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+.input input {
+  padding: 15px;
+  width: calc(100% - 60px);
+  border-radius: 0.5em;
+}
+.input button {
+  margin-left: auto;
+  margin-right: 0px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 0.5em;
+}
+.input button:hover {
+  background-color: #e8f3f5;
+}

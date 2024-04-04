@@ -1,8 +1,8 @@
 import { API_URL, resolve } from "./base";
 import axios from "axios";
 
-export const get_news = async (page = 1) =>
-  await resolve(axios.get(`${API_URL}/news/?page=${page}`)).then(
+export const get_news = async (page = 1, search="") =>
+  await resolve(axios.get(`${API_URL}/news/?page=${page}&search=${search}`)).then(
     (res) => res.data
   );
 

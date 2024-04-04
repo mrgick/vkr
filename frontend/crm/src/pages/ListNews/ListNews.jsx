@@ -1,18 +1,19 @@
 import styles from "./ListNews.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Title, Pagination } from "../../components/uiKit";
+import { Title, Pagination, Search } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiNews } from "../../api";
 
 const ListNews = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await apiNews.get_news(page);
+      const response = await apiNews.get_news(page, search);
       if (response) {
         setData(response.data.data);
         setMaxPage(response.data.max_page);
@@ -20,11 +21,12 @@ const ListNews = (props) => {
     };
 
     fetchData();
-  }, [page]);
+  }, [page, search]);
 
   return (
     <Layout>
       <Title text="Новости" />
+      <Search onClick={(text) => setSearch(text)} />
       {data.map((news) => (
         <article key={news.id} className={styles.card}>
           <div className={styles.description}>

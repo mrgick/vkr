@@ -2,9 +2,11 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.filters import SearchFilter
 
 from news.models import News
 from news.serializers import NewsSerializer
@@ -64,3 +66,8 @@ class NewsListView(ListAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     pagination_class = CRMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
+
+
+
