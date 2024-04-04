@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import { Loader } from "../../components/uiKit";
-
+import ListNews from "../ListNews/ListNews";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -29,7 +29,7 @@ const App = (props) => {
           <Route index element={<Home />} />
           <Route path="login" element={<Authorization />} />
           <Route element={<ProtectedRoute />}>
-            {/* <Route path="profile" element={<Profile />} /> */}
+            <Route path="news" element={<ListNews />} />
           </Route>
         </Route>
       </Routes>

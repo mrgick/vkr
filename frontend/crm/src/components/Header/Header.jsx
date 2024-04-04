@@ -41,7 +41,7 @@ const Header = () => {
         <div className={styles["navbar-left"]}></div>
         <div className={styles["navbar-center"]}>
           <Link to="/">Заказы</Link>
-          <Link to="/">Новости</Link>
+          <Link to="news">Новости</Link>
           <Link to="/">Каталог</Link>
           <Link to="/">Пользователи</Link>
         </div>

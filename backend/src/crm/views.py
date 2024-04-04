@@ -1,3 +1,4 @@
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -5,9 +6,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from news.models import News
+from news.serializers import NewsSerializer
+
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
+    CRMPagination,
 )
 
 
@@ -51,3 +56,11 @@ class CookieTokenRefreshView(TokenRefreshView):
         return super().finalize_response(request, response, *args, **kwargs)
 
     serializer_class = CookieAdminTokenRefreshSerializer
+
+
+class NewsListView(ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    pagination_class = CRMPagination

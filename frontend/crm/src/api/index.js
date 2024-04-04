@@ -1,3 +1,4 @@
 import * as apiAuth from "./auth";
+import * as apiNews from "./news";
 
-export { apiAuth };
+export { apiAuth, apiNews };
