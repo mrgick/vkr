@@ -2,6 +2,7 @@ from typing import Any, Dict
 
 from django.contrib.auth.models import User
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import (
@@ -46,3 +47,9 @@ class CRMPagination(PageNumberPagination):
                 "data": data,
             }
         )
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ("password",)

@@ -1,13 +1,24 @@
 .form_group {
-    display: flex;
-    flex-direction: row;
-    gap: 4em;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 4em;
+  margin-bottom: 30px;
+}
+
+.form_group_column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  margin-bottom: 30px;
+}
+.form_group_column > label {
+  flex: none;
 }
 
 @media only screen and (max-width: 800px) {
-    .form_group {
-        flex-direction: column;
-        gap: 1em;
-    }
+  .form_group,
+  .form_group_column {
+    flex-direction: column;
+    gap: 1em;
+  }
 }

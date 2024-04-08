@@ -11,7 +11,7 @@ import {
   FormError,
 } from "../../components/uiKit";
 import { useAuth } from "../../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Authorization = (props) => {
   const { login } = useAuth();

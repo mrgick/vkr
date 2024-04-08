@@ -1,11 +1,11 @@
-import styles from "./ListNews.module.css";
+import styles from "./NewsList.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Title, Pagination, Search } from "../../components/uiKit";
+import { Title, Pagination, Search, Button } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
-import { apiNews } from "../../api";
+import { apiNews, CLIENT_URL } from "../../api";
 
-const ListNews = (props) => {
+const NewsList = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -26,12 +26,24 @@ const ListNews = (props) => {
   return (
     <Layout>
       <Title text="Новости" />
+      <Link to="/news-create" style={{ marginTop: "30px" }}>
+        <Button
+          style={{
+            width: "100%",
+            margin: "0px",
+            padding: "20px",
+            fontSize: "20px",
+          }}
+        >
+          Создать новость
+        </Button>
+      </Link>
       <Search onClick={(text) => setSearch(text)} />
       {data.map((news) => (
         <article key={news.id} className={styles.card}>
           <div className={styles.description}>
             <p className={styles.title}>
-              <Link to="#">
+              <Link to={CLIENT_URL + "/news/" + news.id}>
                 #{news.id}. {news.title}
               </Link>
             </p>
@@ -76,4 +88,4 @@ const ListNews = (props) => {
   );
 };
 
-export default ListNews;
+export default NewsList;

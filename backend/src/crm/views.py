@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,12 +10,23 @@ from rest_framework.filters import SearchFilter
 
 from news.models import News
 from news.serializers import NewsSerializer
+from main.serializers import ProfileSerializer
 
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
     CRMPagination,
+    UserSerializer,
 )
+
+
+class UserInfoView(RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
 
 
 class Logout(APIView):
@@ -60,14 +71,18 @@ class CookieTokenRefreshView(TokenRefreshView):
     serializer_class = CookieAdminTokenRefreshSerializer
 
 
-class NewsListView(ListAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+class NewsListView(ListCreateAPIView):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     pagination_class = CRMPagination
     filter_backends = [SearchFilter]
-    search_fields = ['title']
+    search_fields = ["title"]
 
 
-
+class NewsItemView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = NewsSerializer
+    queryset = News.objects.all()

@@ -19,3 +19,6 @@ export const logout = async () =>
   await resolve(
     axios.post(`${API_URL}/token/delete/`, {}, { withCredentials: true })
   ).then((res) => res.data);
+
+export const userInfo = async () =>
+  await resolve(axios.get(`${API_URL}/user/`)).then((res) => res.data);

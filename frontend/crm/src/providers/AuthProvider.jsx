@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(localStorage.getItem("user"));
+  const [userInfo, setUserInfo] = useState(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     localStorage.setItem("user", user);
@@ -16,10 +17,13 @@ const AuthProvider = ({ children }) => {
     if (!!response) {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + response.data.access;
+      const res = await apiAuth.userInfo();
       setUser(true);
+      setUserInfo(res?.data);
     } else {
       delete axios.defaults.headers.common["Authorization"];
       setUser(false);
+      setUserInfo(null);
     }
     return user;
   };
@@ -29,11 +33,14 @@ const AuthProvider = ({ children }) => {
     if (!!response) {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + response.data.access;
+      const res = await apiAuth.userInfo();
       setUser(true);
+      setUserInfo(res?.data);
       return true;
     } else {
       delete axios.defaults.headers.common["Authorization"];
       setUser(false);
+      setUserInfo(null);
       return false;
     }
   };
@@ -42,11 +49,13 @@ const AuthProvider = ({ children }) => {
     await apiAuth.logout();
     delete axios.defaults.headers.common["Authorization"];
     setUser(false);
+    setUserInfo(null);
   };
 
   const value = useMemo(
     () => ({
       user,
+      userInfo,
       firstLoad,
       login,
       logout,
