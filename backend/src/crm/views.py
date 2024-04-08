@@ -72,8 +72,8 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 
 class NewsListView(ListCreateAPIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdminUser]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     pagination_class = CRMPagination

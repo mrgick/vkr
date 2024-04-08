@@ -8,6 +8,8 @@ import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import { Loader } from "../../components/uiKit";
 import NewsList from "../NewsList/NewsList";
 import NewsCreate from "../NewsCreate/NewsCreate";
+import NewsDelete from "../NewsDelete/NewsDelete";
+import NewsEdit from "../NewsEdit/NewsEdit";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -32,6 +34,8 @@ const App = (props) => {
           <Route element={<ProtectedRoute />}>
             <Route path="news" element={<NewsList />} />
             <Route path="news-create" element={<NewsCreate />} />
+            <Route path="news-delete/:id" element={<NewsDelete />} />
+            <Route path="news-edit/:id" element={<NewsEdit />} />
           </Route>
         </Route>
       </Routes>

@@ -50,7 +50,7 @@ const NewsList = (props) => {
             <p>от {new Date(news.date).toLocaleDateString("ru-RU")}</p>
           </div>
           <div className={styles.activity}>
-            <Link to="#">
+            <Link to={`/news-edit/${news.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"
@@ -63,7 +63,7 @@ const NewsList = (props) => {
                 />
               </svg>
             </Link>
-            <Link to="#">
+            <Link to={`/news-delete/${news.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"

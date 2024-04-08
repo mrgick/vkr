@@ -41,3 +41,18 @@ export const resolve = async (promise) => {
 
   return resolved;
 };
+
+export const toErrorsList = (error) => {
+  let a = ["Неправильно заполненная форма"];
+  if (error) {
+    try {
+      let d = [];
+      let e = JSON.parse(error);
+      for (var key in e) {
+        d.push(`${key} - ${e[key]}`);
+      }
+      a = d;
+    } catch {}
+  }
+  return a;
+};
