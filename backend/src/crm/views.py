@@ -11,14 +11,14 @@ from rest_framework.filters import SearchFilter
 from news.models import News
 from shop.models import Category, Product
 from news.serializers import NewsSerializer
-from main.serializers import ProfileSerializer
-from shop.serializers import CategorySerializer, ProductSerializer
+from shop.serializers import CategorySerializer
 
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
     CRMPagination,
     UserSerializer,
+    ProductSerializer
 )
 
 
@@ -105,3 +105,20 @@ class CategoryItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class ProductListView(ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = CRMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ["id", "title"]
+
+
+class ProductItemView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()

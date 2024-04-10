@@ -7,3 +7,4 @@ export { FormError } from "./FormError/FormError";
 export { TextArea } from "./TextArea/TextArea";
 export { Image } from "./Image/Image";
 export { FormLink } from "./FormLink/FormLink";
+export { Select } from "./Select/Select";

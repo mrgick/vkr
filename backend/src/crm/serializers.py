@@ -10,6 +10,7 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 from rest_framework_simplejwt.tokens import AccessToken
+from shop.models import Product
 
 
 class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -53,3 +54,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ("password",)
+
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = "__all__"

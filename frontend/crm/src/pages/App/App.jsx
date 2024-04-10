@@ -14,6 +14,10 @@ import CategoryList from "../CategoryList/CategoryList";
 import CategoryCreate from "../CategoryCreate/CategoryCreate";
 import CategoryEdit from "../CategoryEdit/CategoryEdit";
 import CategoryDelete from "../CategoryDelete/CategoryDelete";
+import ProductList from "../ProductList/ProductList";
+import ProductCreate from "../ProductCreate/ProductCreate";
+import ProductDelete from "../ProductDelete/ProductDelete";
+import ProductEdit from "../ProductEdit/ProductEdit";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -44,6 +48,10 @@ const App = (props) => {
             <Route path="category-create" element={<CategoryCreate />} />
             <Route path="category-edit/:id" element={<CategoryEdit />} />
             <Route path="category-delete/:id" element={<CategoryDelete />} />
+            <Route path="products" element={<ProductList />} />
+            <Route path="product-create" element={<ProductCreate />} />
+            <Route path="product-edit/:id" element={<ProductEdit />} />
+            <Route path="product-delete/:id" element={<ProductDelete />} />
           </Route>
         </Route>
       </Routes>

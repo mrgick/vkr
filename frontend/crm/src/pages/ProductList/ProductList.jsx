@@ -1,16 +1,11 @@
-import styles from "./CategoryList.module.css";
+import styles from "./ProductList.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  Pagination,
-  Search,
-  Button,
-  TitleLinks,
-} from "../../components/uiKit";
+import { Pagination, Search, Button, TitleLinks } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop, CLIENT_URL } from "../../api";
 
-const CategoryList = (props) => {
+const ProductList = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -18,7 +13,7 @@ const CategoryList = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await apiShop.get_categories(page, search);
+      const response = await apiShop.get_products(page, search);
       if (response) {
         setData(response.data.data);
         setMaxPage(response.data.max_page);
@@ -35,12 +30,11 @@ const CategoryList = (props) => {
           {
             to: "/categories",
             text: "Категории",
-            active: true,
           },
-          { to: "/products", text: "Товары" },
+          { to: "/products", text: "Товары", active: true },
         ]}
       />
-      <Link to="/category-create" style={{ marginTop: "30px" }}>
+      <Link to="/product-create" style={{ marginTop: "30px" }}>
         <Button
           style={{
             width: "100%",
@@ -49,7 +43,7 @@ const CategoryList = (props) => {
             fontSize: "20px",
           }}
         >
-          Создать категорию
+          Создать товар
         </Button>
       </Link>
       <Search onClick={(text) => setSearch(text)} />
@@ -57,13 +51,13 @@ const CategoryList = (props) => {
         <article key={item.id} className={styles.card}>
           <div className={styles.description}>
             <p className={styles.title}>
-              <Link target="_blank" to={CLIENT_URL + "/shop?category="+item.id}>
+              <Link target="_blank" to={CLIENT_URL + "/shop/" + item.id}>
                 #{item.id}. {item.title}
               </Link>
             </p>
           </div>
           <div className={styles.activity}>
-            <Link to={`/category-edit/${item.id}`}>
+            <Link to={`/product-edit/${item.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"
@@ -76,7 +70,7 @@ const CategoryList = (props) => {
                 />
               </svg>
             </Link>
-            <Link to={`/category-delete/${item.id}`}>
+            <Link to={`/product-delete/${item.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"
@@ -101,4 +95,4 @@ const CategoryList = (props) => {
   );
 };
 
-export default CategoryList;
+export default ProductList;
