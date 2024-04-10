@@ -9,8 +9,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.filters import SearchFilter
 
 from news.models import News
+from shop.models import Category, Product
 from news.serializers import NewsSerializer
 from main.serializers import ProfileSerializer
+from shop.serializers import CategorySerializer, ProductSerializer
 
 from .serializers import (
     AdminTokenObtainPairSerializer,
@@ -78,7 +80,7 @@ class NewsListView(ListCreateAPIView):
     serializer_class = NewsSerializer
     pagination_class = CRMPagination
     filter_backends = [SearchFilter]
-    search_fields = ["title"]
+    search_fields = ["id", "title"]
 
 
 class NewsItemView(RetrieveUpdateDestroyAPIView):
@@ -86,3 +88,20 @@ class NewsItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = NewsSerializer
     queryset = News.objects.all()
+
+
+class CategoriesListView(ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    pagination_class = CRMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ["id", "title"]
+
+
+class CategoryItemView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()

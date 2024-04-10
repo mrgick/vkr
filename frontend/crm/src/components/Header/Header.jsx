@@ -42,7 +42,7 @@ const Header = (props) => {
         <div className={styles["navbar-center"]}>
           <Link to="/">Заказы</Link>
           <Link to="news">Новости</Link>
-          <Link to="/">Каталог</Link>
+          <Link to="categories">Каталог</Link>
           <Link to="/">Пользователи</Link>
         </div>
         <div className={styles["navbar-right"]}>

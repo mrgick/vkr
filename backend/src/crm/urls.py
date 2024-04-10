@@ -17,4 +17,6 @@ urlpatterns = [
     path("user/", views.UserInfoView.as_view(), name="user_info"),
     path("news/", views.NewsListView.as_view(), name="crm_news_list"),
     path("news/<int:pk>/", views.NewsItemView.as_view(), name="crm_news_item"),
+    path("categories/", views.CategoriesListView.as_view(), name="crm_news_list"),
+    path("category/<int:pk>/", views.CategoryItemView.as_view(), name="crm_news_item"),
 ]

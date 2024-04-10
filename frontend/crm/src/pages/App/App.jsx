@@ -10,6 +10,7 @@ import NewsList from "../NewsList/NewsList";
 import NewsCreate from "../NewsCreate/NewsCreate";
 import NewsDelete from "../NewsDelete/NewsDelete";
 import NewsEdit from "../NewsEdit/NewsEdit";
+import CategoryList from "../CategoryList/CategoryList";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -36,6 +37,7 @@ const App = (props) => {
             <Route path="news-create" element={<NewsCreate />} />
             <Route path="news-delete/:id" element={<NewsDelete />} />
             <Route path="news-edit/:id" element={<NewsEdit />} />
+            <Route path="categories" element={<CategoryList />} />
           </Route>
         </Route>
       </Routes>

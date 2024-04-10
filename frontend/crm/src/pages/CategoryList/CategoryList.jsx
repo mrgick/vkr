@@ -1,11 +1,16 @@
-import styles from "./NewsList.module.css";
+import styles from "./CategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Title, Pagination, Search, Button } from "../../components/uiKit";
+import {
+  Pagination,
+  Search,
+  Button,
+  TitleLinks,
+} from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
-import { apiNews, CLIENT_URL } from "../../api";
+import { apiShop, CLIENT_URL } from "../../api";
 
-const NewsList = (props) => {
+const CategoryList = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -13,7 +18,7 @@ const NewsList = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await apiNews.get_news(page, search);
+      const response = await apiShop.get_categories(page, search);
       if (response) {
         setData(response.data.data);
         setMaxPage(response.data.max_page);
@@ -25,8 +30,17 @@ const NewsList = (props) => {
 
   return (
     <Layout>
-      <Title text="Новости" />
-      <Link to="/news-create" style={{ marginTop: "30px" }}>
+      <TitleLinks
+        links={[
+          {
+            to: "/categories",
+            text: "Категории",
+            active: true,
+          },
+          { to: "/", text: "Товары" },
+        ]}
+      />
+      <Link to="/category-create" style={{ marginTop: "30px" }}>
         <Button
           style={{
             width: "100%",
@@ -35,22 +49,21 @@ const NewsList = (props) => {
             fontSize: "20px",
           }}
         >
-          Создать новость
+          Создать категорию
         </Button>
       </Link>
       <Search onClick={(text) => setSearch(text)} />
-      {data.map((news) => (
-        <article key={news.id} className={styles.card}>
+      {data.map((item) => (
+        <article key={item.id} className={styles.card}>
           <div className={styles.description}>
             <p className={styles.title}>
-              <Link target="_blank" to={CLIENT_URL + "/news/" + news.id}>
-                #{news.id}. {news.title}
+              <Link target="_blank" to={CLIENT_URL + "/shop?category="+item.id}>
+                #{item.id}. {item.title}
               </Link>
             </p>
-            <p>от {new Date(news.date).toLocaleDateString("ru-RU")}</p>
           </div>
           <div className={styles.activity}>
-            <Link to={`/news-edit/${news.id}`}>
+            <Link to={`/category-edit/${item.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"
@@ -63,7 +76,7 @@ const NewsList = (props) => {
                 />
               </svg>
             </Link>
-            <Link to={`/news-delete/${news.id}`}>
+            <Link to={`/category-delete/${item.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="40"
@@ -88,4 +101,4 @@ const NewsList = (props) => {
   );
 };
 
-export default NewsList;
+export default CategoryList;

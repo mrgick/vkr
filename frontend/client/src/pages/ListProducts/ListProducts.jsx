@@ -1,5 +1,5 @@
 import styles from "./ListProducts.module.css";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Title } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
@@ -10,7 +10,8 @@ const ListProducts = (props) => {
   const { user } = useAuth();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [active, setActive] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [active, setActive] = useState(Number(searchParams.get("category")));
   const [cart, setCart] = useState(new Set());
   const [loading, setLoading] = useState(new Set());
 
@@ -20,6 +21,7 @@ const ListProducts = (props) => {
         const response = await apiShop.get_categories();
         setCategories(response.data);
       }
+      console.log(active);
       const res = await apiShop.get_products(active);
       setProducts(res.data);
       if (user) {
@@ -34,9 +36,12 @@ const ListProducts = (props) => {
   const changeActive = (category_id) => {
     if (category_id === active) {
       setActive(null);
+      setSearchParams({});
     } else {
       setActive(category_id);
+      setSearchParams({ category: category_id });
     }
+    console.log(searchParams);
   };
 
   const addToCartClick = async (product) => {
