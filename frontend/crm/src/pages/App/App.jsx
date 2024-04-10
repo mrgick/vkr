@@ -11,6 +11,9 @@ import NewsCreate from "../NewsCreate/NewsCreate";
 import NewsDelete from "../NewsDelete/NewsDelete";
 import NewsEdit from "../NewsEdit/NewsEdit";
 import CategoryList from "../CategoryList/CategoryList";
+import CategoryCreate from "../CategoryCreate/CategoryCreate";
+import CategoryEdit from "../CategoryEdit/CategoryEdit";
+import CategoryDelete from "../CategoryDelete/CategoryDelete";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -38,6 +41,9 @@ const App = (props) => {
             <Route path="news-delete/:id" element={<NewsDelete />} />
             <Route path="news-edit/:id" element={<NewsEdit />} />
             <Route path="categories" element={<CategoryList />} />
+            <Route path="category-create" element={<CategoryCreate />} />
+            <Route path="category-edit/:id" element={<CategoryEdit />} />
+            <Route path="category-delete/:id" element={<CategoryDelete />} />
           </Route>
         </Route>
       </Routes>

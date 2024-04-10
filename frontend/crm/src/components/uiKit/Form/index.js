@@ -6,3 +6,4 @@ export { FormHelp } from "./FormHelp/FormHelp";
 export { FormError } from "./FormError/FormError";
 export { TextArea } from "./TextArea/TextArea";
 export { Image } from "./Image/Image";
+export { FormLink } from "./FormLink/FormLink";
