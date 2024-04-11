@@ -18,6 +18,9 @@ import ProductList from "../ProductList/ProductList";
 import ProductCreate from "../ProductCreate/ProductCreate";
 import ProductDelete from "../ProductDelete/ProductDelete";
 import ProductEdit from "../ProductEdit/ProductEdit";
+import UserList from "../UserList/UserList";
+import UserEdit from "../UserEdit/UserEdit";
+import UserDelete from "../UserDelete/UserDelete";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -52,6 +55,9 @@ const App = (props) => {
             <Route path="product-create" element={<ProductCreate />} />
             <Route path="product-edit/:id" element={<ProductEdit />} />
             <Route path="product-delete/:id" element={<ProductDelete />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="user/:id" element={<UserEdit />} />
+            <Route path="user-delete/:id" element={<UserDelete />} />
           </Route>
         </Route>
       </Routes>

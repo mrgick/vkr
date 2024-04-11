@@ -23,4 +23,6 @@ urlpatterns = [
     ),
     path("products/", views.ProductListView.as_view(), name="crm_product_list"),
     path("product/<int:pk>/", views.ProductItemView.as_view(), name="crm_product_item"),
+    path("users/", views.UserListView.as_view(), name="crm_users_list"),
+    path("user/<int:pk>/", views.UserItemView.as_view(), name="crm_user_item"),
 ]

@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,13 +12,14 @@ from news.models import News
 from shop.models import Category, Product
 from news.serializers import NewsSerializer
 from shop.serializers import CategorySerializer
+from django.contrib.auth.models import User
 
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
     CRMPagination,
     UserSerializer,
-    ProductSerializer
+    ProductSerializer,
 )
 
 
@@ -122,3 +123,20 @@ class ProductItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
+
+class UserListView(ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    pagination_class = CRMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ["id", "username", "email", "first_name", "last_name"]
+
+
+class UserItemView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = UserSerializer
+    queryset = User.objects.all()

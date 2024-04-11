@@ -11,9 +11,9 @@ export const FormLink = (props) => {
       to={props.to}
       className={getClassName(styles.form_link, props.className)}
       style={style}
-      {...getProps(props, ["children", "className", "style", "text", "to"])}
+      {...getProps(props, ["children", "className", "style", "text", "to", "color"])}
     >
-      <Button style={{ width: "100%", backgroundColor: "#69B6FA" }}>
+      <Button style={{ width: "100%", backgroundColor: props.color ? props.color : "#69B6FA" }}>
         {props.text}
       </Button>
     </Link>

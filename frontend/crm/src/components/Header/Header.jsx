@@ -43,7 +43,7 @@ const Header = (props) => {
           <Link to="/">Заказы</Link>
           <Link to="news">Новости</Link>
           <Link to="categories">Каталог</Link>
-          <Link to="/">Пользователи</Link>
+          <Link to="/users">Пользователи</Link>
         </div>
         <div className={styles["navbar-right"]}>
           {!user && (

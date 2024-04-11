@@ -47,6 +47,7 @@ export const Pagination = (props) => {
         >
           <path
             fill={prev ? "#6AB8C6" : "#9F9F9F"}
+            transform="translate(150,0)"
             d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"
           />
         </svg>

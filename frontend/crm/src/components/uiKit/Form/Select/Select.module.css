@@ -8,3 +8,8 @@
     10px 0px 10px rgba(39, 105, 204, 0.2);
   background-color: white;
 }
+.select:disabled {
+  color: black;
+  cursor: default;
+  background-color: #e8f3f5;
+}
