@@ -10,9 +10,11 @@ export const FormError = (props) => {
       style={style}
       {...getProps(props)}
     >
-      {props.elements.map((text, i) => 
-        <li key={i} className={styles.error_element}>- {text}</li>
-      )}
+      {props.elements.map((text, i) => (
+        <li key={i} className={styles.error_element}>
+          - {text}
+        </li>
+      ))}
     </ul>
   );
 };

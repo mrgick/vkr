@@ -6,18 +6,18 @@ export const auth = async (username, password) =>
     axios.post(
       `${API_URL}/token/`,
       { username: username, password: password },
-      { withCredentials: true }
-    )
+      { withCredentials: true },
+    ),
   ).then((res) => res.data);
 
 export const refresh = async () =>
   await resolve(
-    axios.post(`${API_URL}/token/refresh/`, {}, { withCredentials: true })
+    axios.post(`${API_URL}/token/refresh/`, {}, { withCredentials: true }),
   ).then((res) => res.data);
 
 export const logout = async () =>
   await resolve(
-    axios.post(`${API_URL}/token/delete/`, {}, { withCredentials: true })
+    axios.post(`${API_URL}/token/delete/`, {}, { withCredentials: true }),
   ).then((res) => res.data);
 
 export const is_auth = async () =>
@@ -29,7 +29,7 @@ export const registration = async (
   first_name,
   last_name,
   password1,
-  password2
+  password2,
 ) =>
   await axios.post(`${API_URL}/registration/`, {
     username: username,
@@ -49,7 +49,7 @@ export const reset_password_confirmation = async (
   id,
   token,
   password1,
-  password2
+  password2,
 ) =>
   await axios.post(`${API_URL}/reset-password-confirmation/`, {
     password1: password1,

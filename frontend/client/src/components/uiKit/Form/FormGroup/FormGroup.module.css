@@ -1,13 +1,13 @@
 .form_group {
-    display: flex;
-    flex-direction: row;
-    gap: 4em;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 4em;
+  margin-bottom: 30px;
 }
 
 @media only screen and (max-width: 800px) {
-    .form_group {
-        flex-direction: column;
-        gap: 1em;
-    }
+  .form_group {
+    flex-direction: column;
+    gap: 1em;
+  }
 }

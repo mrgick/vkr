@@ -42,7 +42,7 @@ const Cart = (props) => {
     setLoad(true);
     await apiShop.create_order();
     await apiShop.get_orders();
-    navigate("/orders")
+    navigate("/orders");
   };
 
   return (

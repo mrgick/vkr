@@ -10,7 +10,7 @@ export const update = async (first_name, last_name, email) =>
       first_name: first_name,
       last_name: last_name,
       email: email,
-    })
+    }),
   ).then((res) => res.data);
 
 export const change_password = async (password, password1, password2) =>
@@ -19,4 +19,5 @@ export const change_password = async (password, password1, password2) =>
       password: password,
       password1: password1,
       password2: password2,
-    }));
+    }),
+  );

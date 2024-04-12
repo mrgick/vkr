@@ -1,193 +1,197 @@
 .shop {
-    /* width: 1528px; */
-    display: flex;
-    display: row;
-    gap: 2em;
+  /* width: 1528px; */
+  display: flex;
+  display: row;
+  gap: 2em;
 }
 
-
 .wrapper {
-    margin: 0;
+  margin: 0;
 }
 
 .container {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .categories {
-    padding: 10px;
-    width: 350px;
-    min-height: 420px;
+  padding: 10px;
+  width: 350px;
+  min-height: 420px;
 }
 
 .category-wrapper {
-    border: 1px solid #6AB8C6;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    padding: 10px;
-    width: 100%;
-    max-width: 350px;
-    min-height: 420px;
-    background-color: #6AB8C6;
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2), 10px 0px 10px rgba(39, 105, 204, 0.2);
+  border: 1px solid #6ab8c6;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 10px;
+  width: 100%;
+  max-width: 350px;
+  min-height: 420px;
+  background-color: #6ab8c6;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
 }
 
-.category-wrapper>h2 {
-    text-shadow: 1px 1px 30px white;
-    margin: 20px auto;
-    font-weight: bold;
-    text-align: center;
-    font-size: 30px;
-    color: white;
+.category-wrapper > h2 {
+  text-shadow: 1px 1px 30px white;
+  margin: 20px auto;
+  font-weight: bold;
+  text-align: center;
+  font-size: 30px;
+  color: white;
 }
 
 .category {
-    cursor: pointer;
-    margin: 10px 0;
-    background-color: #6AB8C6;
-    border-radius: 10px;
-    padding: 20px;
-    border: 2px solid white;
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    box-shadow: 0px 10px 10px rgba(255, 255, 255, 0.2), 10px 0px 10px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  margin: 10px 0;
+  background-color: #6ab8c6;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid white;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  box-shadow:
+    0px 10px 10px rgba(255, 255, 255, 0.2),
+    10px 0px 10px rgba(255, 255, 255, 0.2);
 }
 
 .category:hover {
-    transform: scale(1.02);
-    transform-origin: bottom;
+  transform: scale(1.02);
+  transform-origin: bottom;
 }
 
-.category>p {
-    font-size: 20px;
-    color: white;
-    text-decoration: none;
+.category > p {
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
 }
 
 .products {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 2em;
-    padding: 10px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 2em;
+  padding: 10px;
 }
 
 @media only screen and (max-width: 1550px) {
-    .products {
-        grid-template-columns: auto auto;
-    }
-    .shop {
-        width: 1142px;
-    }
+  .products {
+    grid-template-columns: auto auto;
+  }
+  .shop {
+    width: 1142px;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    .products {
-        grid-template-columns: auto;
-    }
-    .shop {
-        width: 756px;
-    }
+  .products {
+    grid-template-columns: auto;
+  }
+  .shop {
+    width: 756px;
+  }
 }
 
 @media only screen and (max-width: 800px) {
-    .categories {
-        width: 100%;
-    }
-    .shop {
-        flex-direction: column;
-        width: 100%;
-    }
+  .categories {
+    width: 100%;
+  }
+  .shop {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .product {
-    width: 350px;
-    height: 420px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border: 3px solid #6AB8C6;
-    background-color: white;
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2), 10px 0px 10px rgba(39, 105, 204, 0.2);
+  width: 350px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 3px solid #6ab8c6;
+  background-color: white;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
 }
 
 .product:hover {
-    transform: scale(1.02);
-    transform-origin: bottom;
+  transform: scale(1.02);
+  transform-origin: bottom;
 }
 
 .product-img {
-    width: 100%;
-    max-width: 300px;
-    height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 10px;
-    cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 10px;
+  cursor: pointer;
 }
 
-.product-img>img {
-    max-width: 100%;
-    max-height: 260px;
+.product-img > img {
+  max-width: 100%;
+  max-height: 260px;
 }
 
 .title {
-    margin: 20px;
-    text-align: center;
+  margin: 20px;
+  text-align: center;
 }
 
-.title>p {
-    color: black;
-    text-decoration: none;
+.title > p {
+  color: black;
+  text-decoration: none;
 }
 
-.title>p:hover {
-    cursor: pointer;
-    text-decoration: underline;
+.title > p:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.title>p:visited {
-    color: black;
-    text-decoration: none;
+.title > p:visited {
+  color: black;
+  text-decoration: none;
 }
 
 .buy-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }
 
 .buy {
-    color: white;
-    padding: 10px 20px;
-    background: #6AB8C6;
-    box-shadow: 1px 1px 10px #6AB8C6;
-    display: flex;
-    align-items: center;
-    gap: 0.2em;
-    border-radius: 10px;
-    cursor: pointer;
-    height: 50px;
+  color: white;
+  padding: 10px 20px;
+  background: #6ab8c6;
+  box-shadow: 1px 1px 10px #6ab8c6;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 50px;
 }
 
-
 .buy[disabled] {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 @media only screen and (max-width: 400px) {
-    .product {
-        width: 100%;
-        max-width: 350px;
-    }
+  .product {
+    width: 100%;
+    max-width: 350px;
+  }
 }

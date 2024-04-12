@@ -1,68 +1,72 @@
 .table {
-    font-size: 18px;
-    border-collapse: separate;
-    border-spacing: 30px
+  font-size: 18px;
+  border-collapse: separate;
+  border-spacing: 30px;
 }
 
-.table tr>td:first-child {
-    color: white;
-    border: 1px solid #6AB8C6;
-    padding: 15px;
-    background-color: #6AB8C6;
-    border-top-right-radius: 1em;
-    border-bottom-left-radius: 1em;
-    box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2), 10px 0px 10px rgba(39, 105, 204, 0.2);
+.table tr > td:first-child {
+  color: white;
+  border: 1px solid #6ab8c6;
+  padding: 15px;
+  background-color: #6ab8c6;
+  border-top-right-radius: 1em;
+  border-bottom-left-radius: 1em;
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
 }
 
-.table tr>td:last-child {
-    padding: 15px;
-    border: 3px solid #6AB8C6;
-    background-color: white;
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2), 10px 0px 10px rgba(39, 105, 204, 0.2);
+.table tr > td:last-child {
+  padding: 15px;
+  border: 3px solid #6ab8c6;
+  background-color: white;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
+    10px 0px 10px rgba(39, 105, 204, 0.2);
 }
 
 .table a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.table tr:last-child>td {
-    padding: 0;
+.table tr:last-child > td {
+  padding: 0;
 }
 
-.table tr:last-child>td>iframe {
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
+.table tr:last-child > td > iframe {
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
 }
 
 .table address {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .table iframe {
-    width: 500px;
-    height: 500px;
+  width: 500px;
+  height: 500px;
 }
 
-@media only screen and (max-width: 800px) { 
-    .table {
-        display: block;
-    }
-    .table tr {
-        display: flex;
-        flex-direction: column;
-        margin: 20px;
-    }
-    .table td {
-        margin: 10px;
-        max-width: 300px;
-    }
-    .table tbody {
-        display: flex;
-        flex-direction: column;
-    }
-    .table iframe {
-        width: 100%;
-    }
+@media only screen and (max-width: 800px) {
+  .table {
+    display: block;
+  }
+  .table tr {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+  .table td {
+    margin: 10px;
+    max-width: 300px;
+  }
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+  }
+  .table iframe {
+    width: 100%;
+  }
 }

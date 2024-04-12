@@ -12,10 +12,13 @@ export const getStyle = (style) => {
   return {};
 };
 
-export const getProps = (props, del_list=["children","className","style"]) => {
+export const getProps = (
+  props,
+  del_list = ["children", "className", "style"],
+) => {
   const _props = { ...props };
-  del_list.forEach(element => {
-    delete _props[element]
+  del_list.forEach((element) => {
+    delete _props[element];
   });
-  return _props
+  return _props;
 };

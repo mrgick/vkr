@@ -5,7 +5,7 @@ const Layout = (props) => {
     <main className={props.className}>
       <div className={styles.wrapper}>
         <div className={styles.container} style={props.ContainerStyle}>
-            {props.children}
+          {props.children}
         </div>
       </div>
     </main>

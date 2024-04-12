@@ -37,7 +37,7 @@ const Profile = (props) => {
     const res = await apiAccount.update(
       value.first_name,
       value.last_name,
-      value.email
+      value.email,
     );
     if (res) {
       setInfo(res?.data);
@@ -153,7 +153,13 @@ const Profile = (props) => {
         </Form>
       )}
       <Link to="/change-password">
-        <Button style={{ width: "100%", marginBottom: "30px", backgroundColor: "#69B6FA" }}>
+        <Button
+          style={{
+            width: "100%",
+            marginBottom: "30px",
+            backgroundColor: "#69B6FA",
+          }}
+        >
           Изменить пароль
         </Button>
       </Link>

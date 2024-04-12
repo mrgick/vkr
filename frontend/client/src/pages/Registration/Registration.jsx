@@ -29,7 +29,7 @@ const Registration = (props) => {
         value.first_name,
         value.last_name,
         value.password1,
-        value.password2
+        value.password2,
       );
       setSend(true);
     } catch (e) {

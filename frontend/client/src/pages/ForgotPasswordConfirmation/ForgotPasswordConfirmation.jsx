@@ -36,10 +36,10 @@ const ForgotPasswordConfirmation = (props) => {
         id,
         token,
         value.password1,
-        value.password2
+        value.password2,
       );
-      console.log(res)
-      navigate("/login")
+      console.log(res);
+      navigate("/login");
     } catch (e) {
       let a = { error: "Неправильно заполненная форма" };
       if (e?.request?.response) {

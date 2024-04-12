@@ -1,5 +1,7 @@
 # TODO: client: maybe: stars, comments?...
+
 # TODO: crm (orders, news, categories, products, users) # add, edit, delete, view with filter
+
 # TODO: tg bot (find products, create order, view orders)
 
 # Getting Started with Create React App

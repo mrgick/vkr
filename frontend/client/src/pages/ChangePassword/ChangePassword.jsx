@@ -26,7 +26,7 @@ const ChangePassword = (props) => {
     let res = await apiAccount.change_password(
       value.password,
       value.password1,
-      value.password2
+      value.password2,
     );
     console.log(res);
     if (!res.error) {
