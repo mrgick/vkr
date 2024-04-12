@@ -65,3 +65,23 @@ export const edit_product = async (id, formData) =>
 
 export const delete_product = async (id) =>
   await resolve(axios.delete(`${API_URL}/product/${id}/`));
+
+export const get_orders = async (page = 1, search = "") =>
+  await resolve(
+    axios.get(`${API_URL}/orders/?page=${page}&search=${search}`)
+  ).then((res) => res.data);
+
+export const get_order = async (id) =>
+  await resolve(axios.get(`${API_URL}/order/${id}/`)).then((res) => res.data);
+
+export const edit_order = async (id, formData) =>
+  await resolve(
+    axios.patch(`${API_URL}/order-update/${id}/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
+
+export const delete_order = async (id) =>
+  await resolve(axios.delete(`${API_URL}/order/${id}/`));

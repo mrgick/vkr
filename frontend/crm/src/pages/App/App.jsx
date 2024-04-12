@@ -21,6 +21,10 @@ import ProductEdit from "../ProductEdit/ProductEdit";
 import UserList from "../UserList/UserList";
 import UserEdit from "../UserEdit/UserEdit";
 import UserDelete from "../UserDelete/UserDelete";
+import OrderList from "../OrderList/OrderList";
+import OrderView from "../OrderView/OrderView";
+import OrderEdit from "../OrderEdit/OrderEdit";
+import OrderDelete from "../OrderDelete/OrderDelete";
 
 const App = (props) => {
   const { firstLoad } = useAuth();
@@ -58,6 +62,10 @@ const App = (props) => {
             <Route path="users" element={<UserList />} />
             <Route path="user/:id" element={<UserEdit />} />
             <Route path="user-delete/:id" element={<UserDelete />} />
+            <Route path="orders" element={<OrderList />} />
+            <Route path="order/:id" element={<OrderView />} />
+            <Route path="order-edit/:id" element={<OrderEdit />} />
+            <Route path="order-delete/:id" element={<OrderDelete />} />
           </Route>
         </Route>
       </Routes>

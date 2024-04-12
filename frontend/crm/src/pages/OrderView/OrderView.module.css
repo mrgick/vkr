@@ -1,0 +1,76 @@
+
+.table {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-spacing: 0px;
+  border-collapse: separate;
+}
+
+.table tr:last-child > td {
+  border-top: 3px solid #6ab8c6;
+}
+
+.table th,
+.table td {
+  padding: 20px;
+  text-align: left;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .table,
+  .table thead,
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  .table tr {
+    display: grid;
+    grid-template-areas:
+      "title title"
+      "amount price";
+    text-align: center;
+  }
+
+  .table tr > th:nth-child(1),
+  .table tr > td:nth-child(1) {
+    grid-area: title;
+  }
+
+  .table tr > th:nth-child(2),
+  .table tr > td:nth-child(2) {
+    grid-area: amount;
+    border-top: 0px;
+  }
+
+  .table tr > th:nth-child(3),
+  .table tr > td:nth-child(3) {
+    grid-area: price;
+    border-top: 0px;
+  }
+}
+
+.table_wrap {
+  width: 100%;
+  padding: 30px 20px;
+  background-color: white;
+  border: 4px solid #6ab8c6;
+  margin-left: auto;
+  margin-right: auto;
+  border-top-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}

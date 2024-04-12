@@ -1,8 +1,8 @@
 from typing import Any, Dict
 
 from django.contrib.auth.models import User
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import (
@@ -10,7 +10,9 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 from rest_framework_simplejwt.tokens import AccessToken
-from shop.models import Product
+
+from shop.models import Order, Product
+from shop.serializers import OrderSerializer
 
 
 class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -57,7 +59,31 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Product
         fields = "__all__"
+
+
+class OrderUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username")
+
+
+class OrderListSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(source="get_status_display")
+    client = OrderUserSerializer()
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+class OrderItemSerializer(OrderSerializer):
+    client = OrderUserSerializer()
+
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ("id", "status")

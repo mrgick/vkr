@@ -1,25 +1,34 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
+from django.contrib.auth.models import User
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveAPIView,
+    RetrieveDestroyAPIView,
+    RetrieveUpdateDestroyAPIView,
+    UpdateAPIView,
+)
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.filters import SearchFilter
 
 from news.models import News
-from shop.models import Category, Product
 from news.serializers import NewsSerializer
+from shop.models import Category, Order, Product
 from shop.serializers import CategorySerializer
-from django.contrib.auth.models import User
 
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
     CRMPagination,
-    UserSerializer,
+    OrderItemSerializer,
+    OrderListSerializer,
+    OrderUpdateSerializer,
     ProductSerializer,
+    UserSerializer,
 )
 
 
@@ -140,3 +149,27 @@ class UserItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+
+class OrderListView(ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = Order.objects.all()
+    serializer_class = OrderListSerializer
+    pagination_class = CRMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ["id", "status", "client__username"]
+
+
+class OrderItemView(RetrieveDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = OrderItemSerializer
+    queryset = Order.objects.all()
+
+
+class OrderUpdateView(UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = OrderUpdateSerializer
+    queryset = Order.objects.all()
