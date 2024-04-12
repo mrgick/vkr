@@ -8,7 +8,7 @@ export const FormGroup = (props) => {
     <div
       className={getClassName(
         !!props.column ? styles.form_group_column : styles.form_group,
-        props.className
+        props.className,
       )}
       style={style}
       {...getProps(props, ["children", "className", "style", "column"])}

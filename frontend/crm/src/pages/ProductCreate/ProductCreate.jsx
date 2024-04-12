@@ -30,7 +30,7 @@ const ProductCreate = (props) => {
           text: item.title,
         };
       });
-      c.push({value:"",text:"---------", active:true})
+      c.push({ value: "", text: "---------", active: true });
       setCategories(c);
     };
 

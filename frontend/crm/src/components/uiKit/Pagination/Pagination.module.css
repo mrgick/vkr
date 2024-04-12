@@ -13,7 +13,8 @@
   cursor: pointer;
   padding: 15px;
   width: 62px;
-  box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2),
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
     10px 0px 10px rgba(39, 105, 204, 0.2);
   display: flex;
   align-items: center;

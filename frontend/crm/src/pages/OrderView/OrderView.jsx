@@ -84,7 +84,7 @@ const OrderView = (props) => {
           </FormGroup>
         </Form>
       )}
-      <FormLink to={`/order-edit/${id}`} text="Редактировать" color="#6ab8c6"/>
+      <FormLink to={`/order-edit/${id}`} text="Редактировать" color="#6ab8c6" />
       <FormLink to={`/order-delete/${id}`} text="Удалить" color="brown" />
       <FormGroup></FormGroup>
       <FormLink to="/orders" text="Назад к списку заказов" />

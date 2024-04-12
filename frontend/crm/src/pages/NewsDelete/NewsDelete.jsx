@@ -54,7 +54,13 @@ const NewsDelete = (props) => {
         </FormGroup>
       </Form>
       <Link to="/news">
-        <Button style={{ width: "100%", backgroundColor: "#69B6FA", marginBottom: "30px" }}>
+        <Button
+          style={{
+            width: "100%",
+            backgroundColor: "#69B6FA",
+            marginBottom: "30px",
+          }}
+        >
           Назад к новостям
         </Button>
       </Link>

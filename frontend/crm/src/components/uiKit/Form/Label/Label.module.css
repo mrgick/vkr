@@ -8,13 +8,14 @@
   background: #6ab8c6;
   border-top-right-radius: 1em;
   border-bottom-left-radius: 1em;
-  box-shadow: 0px 10px 10px rgba(39, 105, 204, 0.2),
+  box-shadow:
+    0px 10px 10px rgba(39, 105, 204, 0.2),
     10px 0px 10px rgba(39, 105, 204, 0.2);
   height: 50px;
 }
 
 @media only screen and (max-width: 800px) {
-    .label {
-        flex: none;
-    }
+  .label {
+    flex: none;
+  }
 }

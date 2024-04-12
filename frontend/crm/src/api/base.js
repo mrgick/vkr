@@ -23,7 +23,7 @@ export const resolve = async (promise) => {
         const response = await axios.post(
           `${API_URL}/token/refresh/`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
         axios.defaults.headers.common["Authorization"] =
           "Bearer " + response.data.access;

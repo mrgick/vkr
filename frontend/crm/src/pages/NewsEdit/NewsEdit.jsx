@@ -38,9 +38,9 @@ const NewsEdit = (props) => {
     setError([]);
     const data = new FormData(e.target);
     data.set("author", userInfo.id);
-    data.set("date", (new Date()).toISOString());
-    if (data.get("image").size===0) {
-      data.delete("image")
+    data.set("date", new Date().toISOString());
+    if (data.get("image").size === 0) {
+      data.delete("image");
     }
     let res = await apiNews.edit_news(id, data);
     if (res?.data) {
@@ -101,12 +101,7 @@ const NewsEdit = (props) => {
             <Label htmlFor="id_image" title="Изображение">
               Изображение
             </Label>
-            <Input
-              type="file"
-              name="image"
-              accept="image/*"
-              id="id_image"
-            />
+            <Input type="file" name="image" accept="image/*" id="id_image" />
             <Image src={object.image}></Image>
           </FormGroup>
 
@@ -124,7 +119,13 @@ const NewsEdit = (props) => {
         </Form>
       )}
       <Link to="/news">
-        <Button style={{ width: "100%", backgroundColor: "#69B6FA", marginBottom: "30px" }}>
+        <Button
+          style={{
+            width: "100%",
+            backgroundColor: "#69B6FA",
+            marginBottom: "30px",
+          }}
+        >
           Назад к новостям
         </Button>
       </Link>

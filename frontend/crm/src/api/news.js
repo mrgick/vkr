@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const get_news = async (page = 1, search = "") =>
   await resolve(
-    axios.get(`${API_URL}/news/?page=${page}&search=${search}`)
+    axios.get(`${API_URL}/news/?page=${page}&search=${search}`),
   ).then((res) => res.data);
 
 export const create_news = async (formData) =>
@@ -12,7 +12,7 @@ export const create_news = async (formData) =>
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
+    }),
   );
 
 export const get_news_item = async (id) =>
@@ -24,7 +24,7 @@ export const edit_news = async (id, formData) =>
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
+    }),
   );
 
 export const delete_news = async (id) =>

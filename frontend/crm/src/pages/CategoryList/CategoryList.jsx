@@ -1,12 +1,7 @@
 import styles from "./CategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  Pagination,
-  Search,
-  Button,
-  TitleLinks,
-} from "../../components/uiKit";
+import { Pagination, Search, Button, TitleLinks } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop, CLIENT_URL } from "../../api";
 
@@ -57,7 +52,10 @@ const CategoryList = (props) => {
         <article key={item.id} className={styles.card}>
           <div className={styles.description}>
             <p className={styles.title}>
-              <Link target="_blank" to={CLIENT_URL + "/shop?category="+item.id}>
+              <Link
+                target="_blank"
+                to={CLIENT_URL + "/shop?category=" + item.id}
+              >
                 #{item.id}. {item.title}
               </Link>
             </p>
