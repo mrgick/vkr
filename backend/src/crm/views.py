@@ -8,7 +8,6 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     UpdateAPIView,
 )
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -20,6 +19,7 @@ from news.serializers import NewsSerializer
 from shop.models import Category, Order, Product
 from shop.serializers import CategorySerializer
 
+from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
@@ -34,7 +34,7 @@ from .serializers import (
 
 class UserInfoView(RetrieveAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = UserSerializer
 
     def get_object(self):
@@ -43,7 +43,7 @@ class UserInfoView(RetrieveAPIView):
 
 class Logout(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
 
     def post(self, request):
         resp = Response({"detail": "success"})
@@ -85,7 +85,7 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 class NewsListView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     pagination_class = CRMPagination
@@ -95,14 +95,14 @@ class NewsListView(ListCreateAPIView):
 
 class NewsItemView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 
 
 class CategoriesListView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = CRMPagination
@@ -112,14 +112,14 @@ class CategoriesListView(ListCreateAPIView):
 
 class CategoryItemView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 
 class ProductListView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = CRMPagination
@@ -129,14 +129,14 @@ class ProductListView(ListCreateAPIView):
 
 class ProductItemView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
 
 class UserListView(ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = CRMPagination
@@ -146,14 +146,14 @@ class UserListView(ListAPIView):
 
 class UserItemView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
 
 class OrderListView(ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     queryset = Order.objects.all()
     serializer_class = OrderListSerializer
     pagination_class = CRMPagination
@@ -163,13 +163,13 @@ class OrderListView(ListAPIView):
 
 class OrderItemView(RetrieveDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = OrderItemSerializer
     queryset = Order.objects.all()
 
 
 class OrderUpdateView(UpdateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsStuffUser]
     serializer_class = OrderUpdateSerializer
     queryset = Order.objects.all()
