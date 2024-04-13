@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Cart, CartItem, Category, Order, OrderItem, Product
+from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
 
 admin.site.register(Cart)
 admin.site.register(CartItem)
@@ -29,3 +29,9 @@ class OrderAdmin(admin.ModelAdmin):
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("order", "product", "quantity", "total")
     list_filter = ("order",)
+
+
+@admin.register(Review)
+class ReviewItemAdmin(admin.ModelAdmin):
+    list_display = ("author", "product", "date")
+    list_filter = ("product",)

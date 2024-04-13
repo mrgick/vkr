@@ -1,18 +1,28 @@
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+    GenericAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 
 from main.serializers import Pagination
 
-from .models import Cart, CartItem, Category, Order, OrderItem, Product
+from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
 from .serializers import (
     CartItemChangeSerializer,
     CartSerializer,
     CategorySerializer,
     OrderSerializer,
     ProductSerializer,
+    ReviewSerializer,
+    ReviewUpdateSerializer,
+    ReviewReadSerializer,
 )
 
 
@@ -115,3 +125,34 @@ class OrdersView(ListAPIView):
         order.calculate()
         cart.save()
         return Response(data={"detail": "success"}, status=201)
+
+
+class ReviewListView(ListAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReviewReadSerializer
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        return Review.objects.filter(product=self.kwargs["product_id"]).all()
+
+
+class ReviewCreateView(CreateAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReviewSerializer
+
+    def post(self, request, *args, **kwargs):
+        request.data["author"] = request.user.id
+        return super().post(request, *args, **kwargs)
+
+
+class ReviewUpdateDestroyView(UpdateAPIView, DestroyAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReviewUpdateSerializer
+
+    def get_object(self):
+        return Review.objects.filter(
+            author=self.request.user.id, product=self.kwargs["product_id"]
+        ).first()

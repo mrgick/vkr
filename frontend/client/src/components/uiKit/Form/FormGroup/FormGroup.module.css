@@ -5,8 +5,19 @@
   margin-bottom: 30px;
 }
 
+.form_group_column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  margin-bottom: 30px;
+}
+.form_group_column > label {
+  flex: none;
+}
+
 @media only screen and (max-width: 800px) {
-  .form_group {
+  .form_group,
+  .form_group_column {
     flex-direction: column;
     gap: 1em;
   }

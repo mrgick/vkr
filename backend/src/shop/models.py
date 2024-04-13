@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.base import ContentFile
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -224,3 +224,29 @@ class OrderItem(models.Model):
         indexes = [
             models.Index(fields=["order", "product"]),
         ]
+
+
+class Review(models.Model):
+    text = models.TextField(verbose_name="Текст отзыва")
+    date = models.DateTimeField(default=timezone.now, verbose_name="Опубликован")
+    author = models.ForeignKey(
+        User,
+        verbose_name="Имя пользователя, который добавил отзыв",
+        on_delete=models.CASCADE,
+    )
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, verbose_name="Товар отзыва"
+    )
+    rating = models.SmallIntegerField(
+        default=5, validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+
+    def __str__(self):
+        return f'Отзыв к "{self.product.title}" от {self.author.username}'
+
+    class Meta:
+        db_table = "Review"
+        ordering = ["-date"]
+        verbose_name = "отзыв"
+        verbose_name_plural = "отзывы"
+        unique_together = [["author", "product"]]
