@@ -4,6 +4,8 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import Token
@@ -183,3 +185,18 @@ class ChangePasswordSerializer(serializers.Serializer):
         if password1 and password2 and password1 != password2:
             raise serializers.ValidationError("Введенные новые пароли не совпадают.")
         return password2
+
+
+class Pagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 10000
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                "current_page": self.page.number,
+                "max_page": self.page.paginator.num_pages,
+                "data": data,
+            }
+        )

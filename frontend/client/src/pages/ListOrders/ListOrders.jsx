@@ -1,7 +1,7 @@
 import styles from "./ListOrders.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Title } from "../../components/uiKit";
+import { Pagination } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop } from "../../api";
 import { useAuth } from "../../providers/AuthProvider";
@@ -9,16 +9,21 @@ import { TitleLinks } from "../../components/uiKit";
 const ListOrders = (props) => {
   const [orders, setOrders] = useState([]);
   const [load, setLoad] = useState(true);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await apiShop.get_orders();
-      setOrders(res?.data);
+      const res = await apiShop.get_orders(page);
+      if (res) {
+        setOrders(res.data.data);
+        setMaxPage(res.data.max_page);
+      }
       setLoad(false);
     };
 
     fetchData();
-  }, [props.id]);
+  }, [page]);
 
   const get_status_color = (status) => {
     switch (status) {
@@ -106,6 +111,11 @@ const ListOrders = (props) => {
           </div>
         </section>
       ))}
+      <Pagination
+        current={page}
+        maxPage={maxPage}
+        changePage={(page) => setPage(page)}
+      />
     </Layout>
   );
 };

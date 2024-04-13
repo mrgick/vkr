@@ -1,7 +1,10 @@
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
+
+from main.serializers import Pagination
 
 from .models import Cart, CartItem, Category, Order, OrderItem, Product
 from .serializers import (
@@ -20,6 +23,8 @@ class ListCategories(ListAPIView):
 
 class ListProducts(ListAPIView):
     serializer_class = ProductSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ["id", "title"]
 
     def get_queryset(self):
         category = self.kwargs.get("category")
@@ -85,6 +90,7 @@ class OrdersView(ListAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
+    pagination_class = Pagination
 
     def get_queryset(self):
         return Order.objects.filter(client=self.request.user.id).all()

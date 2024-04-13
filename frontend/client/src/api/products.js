@@ -6,9 +6,11 @@ export const get_categories = async () =>
     (res) => res.data,
   );
 
-export const get_products = async (category) =>
+export const get_products = async (category, search = "") =>
   await resolve(
-    axios.get(`${API_URL}/shop/products/${category ? category + "/" : ""}`),
+    axios.get(
+      `${API_URL}/shop/products/${category ? category + "/" : ""}?search=${search}`,
+    ),
   ).then((res) => res.data);
 
 export const get_product = async (id) =>
@@ -39,5 +41,7 @@ export const delete_cart_item = async (product) =>
 export const create_order = async () =>
   await resolve(axios.post(`${API_URL}/shop/orders/`)).then((res) => res.data);
 
-export const get_orders = async () =>
-  await resolve(axios.get(`${API_URL}/shop/orders/`)).then((res) => res.data);
+export const get_orders = async (page = 1) =>
+  await resolve(axios.get(`${API_URL}/shop/orders/?page=${page}`)).then(
+    (res) => res.data,
+  );

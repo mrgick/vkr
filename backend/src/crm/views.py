@@ -14,6 +14,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from main.serializers import Pagination
 from news.models import News
 from news.serializers import NewsSerializer
 from shop.models import Category, Order, Product
@@ -23,7 +24,6 @@ from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
-    CRMPagination,
     OrderItemSerializer,
     OrderListSerializer,
     OrderUpdateSerializer,
@@ -88,7 +88,7 @@ class NewsListView(ListCreateAPIView):
     permission_classes = [IsStuffUser]
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-    pagination_class = CRMPagination
+    pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
 
@@ -105,7 +105,7 @@ class CategoriesListView(ListCreateAPIView):
     permission_classes = [IsStuffUser]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    pagination_class = CRMPagination
+    pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
 
@@ -122,7 +122,7 @@ class ProductListView(ListCreateAPIView):
     permission_classes = [IsStuffUser]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    pagination_class = CRMPagination
+    pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
 
@@ -139,7 +139,7 @@ class UserListView(ListAPIView):
     permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = CRMPagination
+    pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "username", "email", "first_name", "last_name"]
 
@@ -156,7 +156,7 @@ class OrderListView(ListAPIView):
     permission_classes = [IsStuffUser]
     queryset = Order.objects.all()
     serializer_class = OrderListSerializer
-    pagination_class = CRMPagination
+    pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "status", "client__username"]
 

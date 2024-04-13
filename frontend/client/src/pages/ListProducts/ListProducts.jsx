@@ -1,7 +1,7 @@
 import styles from "./ListProducts.module.css";
 import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Title } from "../../components/uiKit";
+import { Title, Search } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop } from "../../api";
 import { useAuth } from "../../providers/AuthProvider";
@@ -14,6 +14,7 @@ const ListProducts = (props) => {
   const [active, setActive] = useState(Number(searchParams.get("category")));
   const [cart, setCart] = useState(new Set());
   const [loading, setLoading] = useState(new Set());
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +23,7 @@ const ListProducts = (props) => {
         setCategories(response.data);
       }
       console.log(active);
-      const res = await apiShop.get_products(active);
+      const res = await apiShop.get_products(active, search);
       setProducts(res.data);
       if (user) {
         const r = await apiShop.get_cart_products();
@@ -31,7 +32,7 @@ const ListProducts = (props) => {
     };
 
     fetchData();
-  }, [active, categories, user]);
+  }, [active, categories, user, search]);
 
   const changeActive = (category_id) => {
     if (category_id === active) {
@@ -83,6 +84,15 @@ const ListProducts = (props) => {
   return (
     <Layout ContainerStyle={{ maxWidth: "100%" }}>
       <Title text="Каталог" />
+      <Search
+        style={{
+          width: "100%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          maxWidth: "750px",
+        }}
+        onClick={(text) => setSearch(text)}
+      />
       <div className={styles.shop}>
         <section className={styles.categories}>
           <div className={styles["category-wrapper"]}>

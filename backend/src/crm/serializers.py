@@ -2,8 +2,6 @@ from typing import Any, Dict
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer,
@@ -35,21 +33,6 @@ class CookieAdminTokenRefreshSerializer(TokenRefreshSerializer):
                 raise InvalidToken("Not admin")
             return data
         raise InvalidToken("No valid token found in cookie 'refresh_token'")
-
-
-class CRMPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
-    max_page_size = 10000
-
-    def get_paginated_response(self, data):
-        return Response(
-            {
-                "current_page": self.page.number,
-                "max_page": self.page.paginator.num_pages,
-                "data": data,
-            }
-        )
 
 
 class UserSerializer(serializers.ModelSerializer):
