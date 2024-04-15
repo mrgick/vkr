@@ -24,5 +24,6 @@ urlpatterns = [
     path("news/", include("news.urls")),
     path("shop/", include("shop.urls")),
     path("crm/", include("crm.urls")),
+    path("tgbot/", include("tgbot.urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
