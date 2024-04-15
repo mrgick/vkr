@@ -22,6 +22,8 @@ const ItemProduct = (props) => {
   const [maxPage, setMaxPage] = useState(1);
   const [reviews, setReviews] = useState([]);
   const [inCart, setInCart] = useState(false);
+  const [review, setReview] = useState(null);
+  const [reviewEdit, setReviewEdit] = useState(false);
   const [rating, setRating] = useState([]);
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,33 @@ const ItemProduct = (props) => {
     };
 
     fetchData();
-  }, [page]);
+  }, [page, review]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let _rating = [
+        { value: "1", text: "1" },
+        { value: "2", text: "2" },
+        { value: "3", text: "3" },
+        { value: "4", text: "4" },
+        { value: "5", text: "5" },
+      ];
+      if (user) {
+        const response = await apiShop.get_review(id);
+        // console.log(response.data)
+        if (response.data.rating) {
+          setReview(response.data);
+          _rating[response.data.rating - 1].active = true;
+        } else {
+          _rating[4].active = true;
+          setReviewEdit(true);
+        }
+        setRating(_rating);
+      }
+    };
+
+    fetchData();
+  }, [props.id]);
 
   const addToCartClick = async () => {
     if (loading) {
@@ -74,6 +102,35 @@ const ItemProduct = (props) => {
       setInCart(false);
     }
     setLoading(false);
+  };
+
+  const saveReview = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    if (!!review) {
+      let res = await apiShop.update_review(id, data);
+      if (res) {
+        setReview(res.data);
+        setReviewEdit(false);
+      }
+    } else {
+      data.set("product", id);
+      let res = await apiShop.create_review(data);
+      if (res) {
+        setReview(res.data);
+        setReviewEdit(false);
+      }
+    }
+  };
+
+  const deleteReview = async () => {
+    var result = window.confirm("Want to delete?");
+    console.log(result);
+    if (result) {
+      await apiShop.delete_review(id);
+      setReview(null);
+      setReviewEdit(true);
+    }
   };
 
   return (
@@ -131,24 +188,56 @@ const ItemProduct = (props) => {
       )}
       {user && (
         <section className={styles.comments}>
-          <h2>Ваш отзыв</h2>
-          <Form>
+          <h2>{!!review ? "Ваш отзыв" : "Добавить отзыв"}</h2>
+          <Form onSubmit={saveReview}>
             <FormGroup>
               <Label htmlFor="id_rating">Оценка</Label>
-              <Select id="id_rating" elements={[{value:"1",text:"1"}]} disabled={true}/>
+              <Select
+                name="rating"
+                id="id_rating"
+                elements={rating}
+                disabled={!reviewEdit}
+              />
             </FormGroup>
             <FormGroup column={true}>
               <Label htmlFor="id_text">Комментарий</Label>
-              <TextArea name="text" cols="40" rows="5" required id="id_text" disabled={true}/>
+              <TextArea
+                name="text"
+                cols="40"
+                rows="5"
+                required
+                id="id_text"
+                disabled={!reviewEdit}
+                defaultValue={review?.text}
+              />
             </FormGroup>
-            <Button>Сохранить</Button>
+            {!reviewEdit && (
+              <Button
+                onClick={() => {
+                  setReviewEdit(true);
+                }}
+                type="submit"
+              >
+                Редактировать
+              </Button>
+            )}
+            {reviewEdit && (
+              <Button type="submit">
+                {!!review ? "Сохранить" : "Добавить"}
+              </Button>
+            )}
           </Form>
+          {!!review && reviewEdit && (
+            <Button onClick={deleteReview} style={{ backgroundColor: "brown" }}>
+              Удалить
+            </Button>
+          )}
         </section>
       )}
       {reviews.length > 0 && (
         <>
           <section className={styles.comments}>
-          <h2>Комментарии</h2>
+            <h2>Отзывы</h2>
             {reviews.map((item, i) => (
               <div key={i} className={styles.comment}>
                 <div className={styles.comment_top}>

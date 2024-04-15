@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
 
 
@@ -76,10 +77,16 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return super().create(
+            {"author_id": self.context["request"].user.id, **validated_data}
+        )
+
     class Meta:
         model = Review
         fields = "__all__"
+        read_only_fields = ("author",)
 
 
 class ReviewUserSerializer(serializers.ModelSerializer):

@@ -1,11 +1,10 @@
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import (
     CreateAPIView,
-    DestroyAPIView,
     GenericAPIView,
     ListAPIView,
     RetrieveAPIView,
-    UpdateAPIView,
+    RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -20,9 +19,9 @@ from .serializers import (
     CategorySerializer,
     OrderSerializer,
     ProductSerializer,
-    ReviewSerializer,
-    ReviewUpdateSerializer,
+    ReviewCreateSerializer,
     ReviewReadSerializer,
+    ReviewUpdateSerializer,
 )
 
 
@@ -128,8 +127,6 @@ class OrdersView(ListAPIView):
 
 
 class ReviewListView(ListAPIView):
-    authentication_classes = [JWTStatelessUserAuthentication]
-    permission_classes = [IsAuthenticated]
     serializer_class = ReviewReadSerializer
     pagination_class = Pagination
 
@@ -140,14 +137,10 @@ class ReviewListView(ListAPIView):
 class ReviewCreateView(CreateAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
-    serializer_class = ReviewSerializer
-
-    def post(self, request, *args, **kwargs):
-        request.data["author"] = request.user.id
-        return super().post(request, *args, **kwargs)
+    serializer_class = ReviewCreateSerializer
 
 
-class ReviewUpdateDestroyView(UpdateAPIView, DestroyAPIView):
+class ReviewView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = ReviewUpdateSerializer

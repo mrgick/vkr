@@ -169,7 +169,7 @@
     0px 10px 10px rgba(39, 105, 204, 0.2),
     10px 0px 10px rgba(39, 105, 204, 0.2);
 }
-.comments >h2 {
+.comments > h2 {
   font-size: 30px;
   font-weight: bold;
   color: #2fb3ca;
