@@ -7,6 +7,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Avg
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
@@ -44,6 +45,12 @@ class Product(models.Model):
         verbose_name="Цена",
         validators=[MinValueValidator(Decimal("0.01"))],
     )
+    rating = models.FloatField(default=5.0, verbose_name="Оценка")
+
+    def update_rating(self):
+        data = Review.objects.filter(product=self).aggregate(Avg("rating"))
+        self.rating = data["rating__avg"]
+        self.save()
 
     def compress_logo(self, image):
         im = Image.open(image)
@@ -238,8 +245,15 @@ class Review(models.Model):
         Product, on_delete=models.CASCADE, verbose_name="Товар отзыва"
     )
     rating = models.SmallIntegerField(
-        default=5, validators=[MinValueValidator(1), MaxValueValidator(5)]
+        default=5,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Оценка",
     )
+
+    def save(self, *args, **kwargs) -> None:
+        data = super().save(*args, **kwargs)
+        self.product.update_rating()
+        return data
 
     def __str__(self):
         return f'Отзыв к "{self.product.title}" от {self.author.username}'

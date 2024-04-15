@@ -40,7 +40,7 @@ const ItemProduct = (props) => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, review]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,7 +137,40 @@ const ItemProduct = (props) => {
     <Layout>
       {object && (
         <>
-          <Title text={object.title} />
+          <Title
+            text={object.title}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: "0.5em",
+            }}
+          >
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: "0em",
+              }}
+            >
+              {"  "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="40"
+                viewBox="0 -960 960 960"
+                width="40"
+              >
+                <path
+                  fill="#EBB765"
+                  d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"
+                />
+              </svg>
+              <span>{object.rating}</span>
+            </span>
+          </Title>
           <section className={styles["product-top"]}>
             <div className={styles["wrapper-img"]}>
               <img src={object.image} alt="Изображение товара" />
