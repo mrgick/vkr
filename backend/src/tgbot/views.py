@@ -3,6 +3,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import telebot
+from telebot import types
+from telebot.util import quick_markup
+from shop.models import Category, Product
+
+import json
 
 bot = telebot.TeleBot(settings.TELEGRAM_TOKEN)
 
@@ -13,12 +18,108 @@ class BoWebHooktView(APIView):
             return Response(
                 {"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED
             )
-        print(request.data)
-        update = telebot.types.Update.de_json(request.data)
+        # print(request.data)
+        update = types.Update.de_json(request.data)
         bot.process_new_updates([update])
         return Response({"success": True})
 
 
 @bot.message_handler(commands=["start"])
-def greet(m):
-    bot.send_message(m.chat.id, "Hello")
+def greet(message):
+    bot.send_message(
+        message.chat.id,
+        "Привет! Я - бот Dice Harmony, ваш помощник в мире настольных игр. Я могу рассказать вам о наших новинках, помочь найти игру в нашем магазине. Чем я могу вам помочь?",
+    )
+
+
+@bot.message_handler(commands=["categories"])
+def categories(message):
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    buttons = [
+        types.InlineKeyboardButton(
+            text=item.title,
+            callback_data=json.dumps({"category": item.id, "page": 1}),
+        )
+        for item in Category.objects.all()
+    ]
+    markup.add(*buttons)
+    bot.send_message(
+        message.chat.id,
+        "Список категорий:\n",
+        reply_markup=markup,
+    )
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def handle_button_click(call):
+    res = None
+    try:
+        data = json.loads(call.data)
+    except Exception:
+        bot.send_message(call.message.chat.id, "Команда не распознана(")
+    else:
+        # print(data)
+        if "hide" in data:
+            res = bot.edit_message_reply_markup(
+                call.message.chat.id,
+                call.message.id,
+            )
+        elif "category" in data:
+            category = data["category"]
+            page = data.get("page", 1)
+            product = Product.objects.filter(category=category).all()[page - 1 : page][
+                0
+            ]
+            max_page = Product.objects.filter(category=category).count()
+            # print(page, max_page)
+            markup = pagination(page, max_page, {"category": category})
+            # print(markup)
+            res = bot.edit_message_text(
+                f"*{product.title}*\n\n{product.description}\n[​​​​​​​​​​​](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/200px-Stack_Overflow_logo.svg.png)",
+                call.message.chat.id,
+                call.message.id,
+                reply_markup=markup,
+                parse_mode="markdown",
+            )
+            # res = bot.send_message(
+            #     call.message.chat.id, f"{data['category']}", reply_markup=markup
+            # )
+            print(res)
+
+
+def pagination(page: int, max_page: int, data: dict):
+
+    buttons = []
+    if page > 1:
+        buttons.append(
+            types.InlineKeyboardButton(
+                text="<",
+                callback_data=json.dumps({"page": page - 1, **data}),
+            )
+        )
+    buttons.append(
+        types.InlineKeyboardButton(
+            text=f"{page}/{max_page}",
+            callback_data=json.dumps({"page": page, **data}),
+        )
+    )
+    if page < max_page:
+        buttons.append(
+            types.InlineKeyboardButton(
+                text=">", callback_data=json.dumps({"page": page + 1, **data})
+            )
+        )
+    buttons.append(
+        types.InlineKeyboardButton(
+            text="Скрыть", callback_data=json.dumps({"hide": True, **data})
+        )
+    )
+    markup = types.InlineKeyboardMarkup(row_width=len(buttons) - 1)
+    markup.add(*buttons)
+    return markup
+
+
+@bot.message_handler(func=lambda message: True)
+def echo_message(message):
+    print(2)
+    bot.reply_to(message, message.text)
