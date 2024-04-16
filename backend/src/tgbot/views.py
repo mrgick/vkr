@@ -58,7 +58,6 @@ def handle_button_click(call):
     except Exception:
         bot.send_message(call.message.chat.id, "Команда не распознана(")
     else:
-        # print(data)
         if "hide" in data:
             res = bot.edit_message_reply_markup(
                 call.message.chat.id,
@@ -67,24 +66,18 @@ def handle_button_click(call):
         elif "category" in data:
             category = data["category"]
             page = data.get("page", 1)
-            product = Product.objects.filter(category=category).all()[page - 1 : page][
+            product = Product.objects.filter(category=category, stock=True).all()[page - 1 : page][
                 0
             ]
-            max_page = Product.objects.filter(category=category).count()
-            # print(page, max_page)
+            max_page = Product.objects.filter(category=category, stock=True).count()
             markup = pagination(page, max_page, {"category": category})
-            # print(markup)
             res = bot.edit_message_text(
-                f"*{product.title}*\n\n{product.description}\n[​​​​​​​​​​​](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stack_Overflow_logo.svg/200px-Stack_Overflow_logo.svg.png)",
+                f"*{product.title} ★{str(product.rating)[:3]} {product.price}₽*\n\n{product.description}\n[\u200B]({settings.IMAGE_URL}/{product.image.name})",
                 call.message.chat.id,
                 call.message.id,
                 reply_markup=markup,
                 parse_mode="markdown",
             )
-            # res = bot.send_message(
-            #     call.message.chat.id, f"{data['category']}", reply_markup=markup
-            # )
-            print(res)
 
 
 def pagination(page: int, max_page: int, data: dict):
