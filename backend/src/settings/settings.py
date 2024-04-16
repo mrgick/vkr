@@ -10,13 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 
-ENV_CONFIG = dotenv_values(".env")
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+load_dotenv(".env")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENV_CONFIG["SECRET_KEY"]
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -104,8 +104,12 @@ WSGI_APPLICATION = "settings.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.environ["DB_ENGINE"],
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"],
     }
 }
 
@@ -157,21 +161,21 @@ MEDIA_URL = "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-RESET_PASSWORD_URL = ENV_CONFIG["RESET_PASSWORD_URL"]
-CONFIRM_REGISTRATION_URL = ENV_CONFIG["CONFIRM_REGISTRATION_URL"]
+RESET_PASSWORD_URL = os.environ["RESET_PASSWORD_URL"]
+CONFIRM_REGISTRATION_URL = os.environ["CONFIRM_REGISTRATION_URL"]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = ENV_CONFIG["EMAIL_HOST"]
-EMAIL_PORT = ENV_CONFIG["EMAIL_PORT"]
-EMAIL_USE_SSL = ENV_CONFIG["EMAIL_USE_SSL"]
+EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_PORT = os.environ["EMAIL_PORT"]
+EMAIL_USE_SSL = os.environ["EMAIL_USE_SSL"]
 
-EMAIL_HOST_USER = ENV_CONFIG["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = ENV_CONFIG["EMAIL_HOST_PASSWORD"]
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
-TELEGRAM_TOKEN = ENV_CONFIG["TELEGRAM_TOKEN"]
-TELEGRAM_WEBHOOK_TOKEN = ENV_CONFIG["TELEGRAM_WEBHOOK_TOKEN"]
+TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
+TELEGRAM_WEBHOOK_TOKEN = os.environ["TELEGRAM_WEBHOOK_TOKEN"]
 
-PRODUCT_LINK = ENV_CONFIG["PRODUCT_LINK"]
+PRODUCT_LINK = os.environ["PRODUCT_LINK"]
