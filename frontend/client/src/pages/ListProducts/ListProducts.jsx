@@ -94,22 +94,26 @@ const ListProducts = (props) => {
         onClick={(text) => setSearch(text)}
       />
       <div className={styles.shop}>
-        <section className={styles.categories}>
-          <div className={styles["category-wrapper"]}>
-            <h2>Категории</h2>
-            {categories.map((category) => (
-              <article
-                key={category.id}
-                className={styles.category}
-                onClick={() => changeActive(category.id)}
-              >
-                <p style={category.id === active ? { fontWeight: "bold" } : {}}>
-                  {category.title}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
+        {products.length > 0 && (
+          <section className={styles.categories}>
+            <div className={styles["category-wrapper"]}>
+              <h2>Категории</h2>
+              {categories.map((category) => (
+                <article
+                  key={category.id}
+                  className={styles.category}
+                  onClick={() => changeActive(category.id)}
+                >
+                  <p
+                    style={category.id === active ? { fontWeight: "bold" } : {}}
+                  >
+                    {category.title}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className={styles.products}>
           {products.map((product) => (

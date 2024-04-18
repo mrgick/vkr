@@ -11,6 +11,7 @@ import {
   TextArea,
   FormGroup,
   Select,
+  Loader,
 } from "../../components/uiKit";
 import { apiShop } from "../../api";
 import { useAuth } from "../../providers/AuthProvider";
@@ -27,32 +28,6 @@ const ItemProduct = (props) => {
   const [rating, setRating] = useState([]);
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await apiShop.get_product(id);
-      setObject(response.data);
-      if (user) {
-        const r = await apiShop.get_cart_products();
-        setInCart(r.data.includes(response.data.id));
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [id, review]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await apiShop.get_reviews(id, page);
-      if (res) {
-        setReviews(res.data.data);
-        setMaxPage(res.data.max_page);
-      }
-    };
-
-    fetchData();
-  }, [page, review]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,6 +54,32 @@ const ItemProduct = (props) => {
 
     fetchData();
   }, [props.id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await apiShop.get_product(id);
+      setObject(response.data);
+      if (user) {
+        const r = await apiShop.get_cart_products();
+        setInCart(r.data.includes(response.data.id));
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [id, review]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await apiShop.get_reviews(id, page);
+      if (res) {
+        setReviews(res.data.data);
+        setMaxPage(res.data.max_page);
+      }
+    };
+
+    fetchData();
+  }, [page, review]);
 
   const addToCartClick = async () => {
     if (loading) {
@@ -135,6 +136,7 @@ const ItemProduct = (props) => {
 
   return (
     <Layout>
+      {!object && <Loader />}
       {object && (
         <>
           <Title
@@ -168,7 +170,7 @@ const ItemProduct = (props) => {
                   d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"
                 />
               </svg>
-              <span>{object.rating.toString().slice(0,4)}</span>
+              <span>{object.rating.toString().slice(0, 4)}</span>
             </span>
           </Title>
           <section className={styles["product-top"]}>
@@ -219,7 +221,7 @@ const ItemProduct = (props) => {
           </section>
         </>
       )}
-      {user && (
+      {object && user && (
         <section className={styles.comments}>
           <h2>{!!review ? "Ваш отзыв" : "Добавить отзыв"}</h2>
           <Form onSubmit={saveReview}>
@@ -267,7 +269,7 @@ const ItemProduct = (props) => {
           )}
         </section>
       )}
-      {reviews.length > 0 && (
+      {object && reviews.length > 0 && (
         <>
           <section className={styles.comments}>
             <h2>Отзывы</h2>

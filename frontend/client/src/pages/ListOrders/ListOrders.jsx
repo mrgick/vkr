@@ -5,7 +5,7 @@ import { Pagination } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
 import { apiShop } from "../../api";
 import { useAuth } from "../../providers/AuthProvider";
-import { TitleLinks } from "../../components/uiKit";
+import { TitleLinks, Loader } from "../../components/uiKit";
 const ListOrders = (props) => {
   const [orders, setOrders] = useState([]);
   const [load, setLoad] = useState(true);
@@ -46,6 +46,7 @@ const ListOrders = (props) => {
           { to: "/profile", text: "Профиль" },
         ]}
       />
+      {load && <Loader/>}
       {!load && orders.length === 0 && (
         <div className={styles["list-empty"]}>Список заказов пуст</div>
       )}
@@ -111,11 +112,11 @@ const ListOrders = (props) => {
           </div>
         </section>
       ))}
-      <Pagination
+      {!load && <Pagination
         current={page}
         maxPage={maxPage}
         changePage={(page) => setPage(page)}
-      />
+      />}
     </Layout>
   );
 };

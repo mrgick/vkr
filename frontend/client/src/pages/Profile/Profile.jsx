@@ -14,6 +14,7 @@ import {
   Button,
   FormHelp,
   FormError,
+  Loader,
 } from "../../components/uiKit";
 const Profile = (props) => {
   const [info, setInfo] = useState(null);
@@ -37,7 +38,7 @@ const Profile = (props) => {
     const res = await apiAccount.update(
       value.first_name,
       value.last_name,
-      value.email,
+      value.email
     );
     if (res) {
       setInfo(res?.data);
@@ -55,6 +56,7 @@ const Profile = (props) => {
           { to: "/profile", text: "Профиль", active: true },
         ]}
       />
+      {!info && <Loader/>}
       {info && (
         <Form onSubmit={profileSave}>
           <FormGroup>
@@ -152,17 +154,19 @@ const Profile = (props) => {
           </FormGroup>
         </Form>
       )}
-      <Link to="/change-password">
-        <Button
-          style={{
-            width: "100%",
-            marginBottom: "30px",
-            backgroundColor: "#69B6FA",
-          }}
-        >
-          Изменить пароль
-        </Button>
-      </Link>
+      {info && (
+        <Link to="/change-password">
+          <Button
+            style={{
+              width: "100%",
+              marginBottom: "30px",
+              backgroundColor: "#69B6FA",
+            }}
+          >
+            Изменить пароль
+          </Button>
+        </Link>
+      )}
     </Layout>
   );
 };
