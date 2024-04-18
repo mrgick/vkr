@@ -71,8 +71,9 @@ def handle_button_click(call):
             ]
             max_page = Product.objects.filter(category=category, stock=True).count()
             markup = pagination(page, max_page, {"category": category})
+            # print(product.image.url)
             res = bot.edit_message_text(
-                f"*{product.title} ★{str(product.rating)[:3]} {product.price}₽*\n\n{product.description}\n[\u200B]({settings.IMAGE_URL}/{product.image.name})",
+                f"*{product.title} ★{str(product.rating)[:3]} {product.price}₽*\n\n{product.description}\n[\u200B]({product.image.url})",
                 call.message.chat.id,
                 call.message.id,
                 reply_markup=markup,
