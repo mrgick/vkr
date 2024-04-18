@@ -19,6 +19,7 @@ from news.models import News
 from news.serializers import NewsSerializer
 from shop.models import Category, Order, Product
 from shop.serializers import CategorySerializer
+from main.redis import delete_cache
 
 from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (
@@ -91,6 +92,12 @@ class NewsListView(ListCreateAPIView):
     pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
+    CACHE_KEY_PREFIX = "news"
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class NewsItemView(RetrieveUpdateDestroyAPIView):
@@ -98,6 +105,22 @@ class NewsItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsStuffUser]
     serializer_class = NewsSerializer
     queryset = News.objects.all()
+    CACHE_KEY_PREFIX = "news"
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        response = super().partial_update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class CategoriesListView(ListCreateAPIView):
@@ -108,6 +131,12 @@ class CategoriesListView(ListCreateAPIView):
     pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
+    CACHE_KEY_PREFIX = "categories"
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class CategoryItemView(RetrieveUpdateDestroyAPIView):
@@ -115,6 +144,22 @@ class CategoryItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsStuffUser]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    CACHE_KEY_PREFIX = "categories"
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        response = super().partial_update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class ProductListView(ListCreateAPIView):
@@ -125,6 +170,12 @@ class ProductListView(ListCreateAPIView):
     pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
+    CACHE_KEY_PREFIX = "products"
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class ProductItemView(RetrieveUpdateDestroyAPIView):
@@ -132,6 +183,22 @@ class ProductItemView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsStuffUser]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    CACHE_KEY_PREFIX = "products"
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        response = super().partial_update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class UserListView(ListAPIView):

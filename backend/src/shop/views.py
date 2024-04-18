@@ -9,6 +9,9 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from main.redis import delete_cache
 
 from main.serializers import Pagination
 
@@ -28,12 +31,18 @@ from .serializers import (
 class ListCategories(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    CACHE_KEY_PREFIX = "categories"
+
+    @method_decorator(cache_page(300, key_prefix=CACHE_KEY_PREFIX))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ListProducts(ListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
+    CACHE_KEY_PREFIX = "products"
 
     def get_queryset(self):
         category = self.kwargs.get("category")
@@ -42,10 +51,19 @@ class ListProducts(ListAPIView):
             queryset = queryset.filter(category=category)
         return queryset.all()
 
+    @method_decorator(cache_page(300, key_prefix=CACHE_KEY_PREFIX))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 
 class ItemProduct(RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    CACHE_KEY_PREFIX = "products"
+
+    @method_decorator(cache_page(300, key_prefix=CACHE_KEY_PREFIX))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ChangeCart(GenericAPIView):
@@ -129,23 +147,50 @@ class OrdersView(ListAPIView):
 class ReviewListView(ListAPIView):
     serializer_class = ReviewReadSerializer
     pagination_class = Pagination
+    CACHE_KEY_PREFIX = "reviews"
 
     def get_queryset(self):
         return Review.objects.filter(product=self.kwargs["product_id"]).all()
+
+    @method_decorator(cache_page(300, key_prefix=CACHE_KEY_PREFIX))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ReviewCreateView(CreateAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = ReviewCreateSerializer
+    CACHE_KEY_PREFIX = "reviews"
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class ReviewView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = ReviewUpdateSerializer
+    CACHE_KEY_PREFIX = "reviews"
 
     def get_object(self):
         return Review.objects.filter(
             author=self.request.user.id, product=self.kwargs["product_id"]
         ).first()
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        response = super().partial_update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
