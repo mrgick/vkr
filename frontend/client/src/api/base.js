@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "https://dice-harmony.onrender.com/";
+export const API_URL = "https://api.dice-harmony.ru";
 
 export const resolve = async (promise) => {
   const resolved = {
