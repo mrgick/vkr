@@ -1,9 +1,9 @@
 FROM python:3.11.5-slim
 
-COPY ./requirements.txt requirements.txt
+COPY backend/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./ code
+COPY backend/ code
 WORKDIR /code
 
 EXPOSE 10000
