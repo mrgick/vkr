@@ -282,7 +282,7 @@ def get_auth_user(chat_id):
             chat_id,
             "Вы не привязали аккаунт к сайту",
             reply_markup=quick_markup(
-                {"Привязать?": "https://dice-harmony.ru/profile"}
+                {"Привязать?": {"url": "https://dice-harmony.ru/profile"}}
             ),
         )
         return False
