@@ -19,7 +19,7 @@ export const Pagination = (props) => {
   if (props.current + 1 < props.maxPage) {
     nums.push(props.current + 1);
   }
-  if (props.current + 1 < props.maxPage - 2) {
+  if (props.current < props.maxPage - 2) {
     nums.push("...");
   }
   if (props.maxPage !== 1 && props.maxPage !== props.current) {
