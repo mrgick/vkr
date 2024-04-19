@@ -16,6 +16,7 @@ import {
   FormError,
   Loader,
 } from "../../components/uiKit";
+import TelegramLoginButton from "../../components/TelegramLogin/TelegramLogin";
 const Profile = (props) => {
   const [info, setInfo] = useState(null);
   const [edit, setEdit] = useState(false);
@@ -48,6 +49,11 @@ const Profile = (props) => {
     }
   };
 
+  const dataOnauth = (user) => {
+    console.log(user.id, user.username);
+    apiAccount.connect_telegram(user.id, user.username);
+  };
+
   return (
     <Layout>
       <TitleLinks
@@ -56,7 +62,7 @@ const Profile = (props) => {
           { to: "/profile", text: "Профиль", active: true },
         ]}
       />
-      {!info && <Loader/>}
+      {!info && <Loader />}
       {info && (
         <Form onSubmit={profileSave}>
           <FormGroup>
@@ -155,17 +161,42 @@ const Profile = (props) => {
         </Form>
       )}
       {info && (
-        <Link to="/change-password">
-          <Button
-            style={{
-              width: "100%",
-              marginBottom: "30px",
-              backgroundColor: "#69B6FA",
-            }}
-          >
-            Изменить пароль
-          </Button>
-        </Link>
+        <>
+          <Link to="/change-password">
+            <Button
+              style={{
+                width: "100%",
+                marginBottom: "30px",
+                backgroundColor: "#69B6FA",
+              }}
+            >
+              Изменить пароль
+            </Button>
+          </Link>
+          {!info?.tg_username && (
+            <TelegramLoginButton
+              widgetVersion="22"
+              botName="dice_harmony_bot"
+              buttonSize="large"
+              requestAccess="write"
+              dataOnauth={dataOnauth}
+              className={styles.telegram}
+            />
+          )}
+          {info?.tg_username && (
+            <Link to={`https://t.me/${info.tg_username}`}>
+              <Button
+                style={{
+                  width: "100%",
+                  marginBottom: "30px",
+                  backgroundColor: "#69B6FA",
+                }}
+              >
+                Ваш телеграм: {info?.tg_username}
+              </Button>
+            </Link>
+          )}
+        </>
       )}
     </Layout>
   );

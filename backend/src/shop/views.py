@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import (
     CreateAPIView,
@@ -9,10 +11,8 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from main.redis import delete_cache
 
+from main.redis import delete_cache
 from main.serializers import Pagination
 
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
@@ -33,7 +33,7 @@ class ListCategories(ListAPIView):
     serializer_class = CategorySerializer
     CACHE_KEY_PREFIX = "categories"
 
-    @method_decorator(cache_page(60*60*2, key_prefix=CACHE_KEY_PREFIX))
+    @method_decorator(cache_page(60 * 60 * 2, key_prefix=CACHE_KEY_PREFIX))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -51,7 +51,7 @@ class ListProducts(ListAPIView):
             queryset = queryset.filter(category=category)
         return queryset.all()
 
-    @method_decorator(cache_page(60*60*2, key_prefix=CACHE_KEY_PREFIX))
+    @method_decorator(cache_page(60 * 60 * 2, key_prefix=CACHE_KEY_PREFIX))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -61,7 +61,7 @@ class ItemProduct(RetrieveAPIView):
     serializer_class = ProductSerializer
     CACHE_KEY_PREFIX = "products"
 
-    @method_decorator(cache_page(60*60*2, key_prefix=CACHE_KEY_PREFIX))
+    @method_decorator(cache_page(60 * 60 * 2, key_prefix=CACHE_KEY_PREFIX))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
@@ -152,7 +152,7 @@ class ReviewListView(ListAPIView):
     def get_queryset(self):
         return Review.objects.filter(product=self.kwargs["product_id"]).all()
 
-    @method_decorator(cache_page(60*60*2, key_prefix=CACHE_KEY_PREFIX))
+    @method_decorator(cache_page(60 * 60 * 2, key_prefix=CACHE_KEY_PREFIX))
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 

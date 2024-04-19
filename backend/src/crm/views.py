@@ -14,12 +14,12 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from main.redis import delete_cache
 from main.serializers import Pagination
 from news.models import News
 from news.serializers import NewsSerializer
 from shop.models import Category, Order, Product
 from shop.serializers import CategorySerializer
-from main.redis import delete_cache
 
 from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (

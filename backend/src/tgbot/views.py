@@ -1,17 +1,28 @@
-from django.conf import settings
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-import telebot
-from telebot import types
-from telebot.util import quick_markup
-from shop.models import Category, Product
-from news.models import News
-from django.db.models import Q
-
 import json
 
+import telebot
+from django.conf import settings
+from rest_framework import status
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
+from telebot import types
+from telebot.util import quick_markup
+
+from news.models import News
+from shop.models import Category, Product
+
+from .serializers import TelegramClientSerializer
+
 bot = telebot.TeleBot(settings.TELEGRAM_TOKEN)
+
+
+class ConnectTelegram(CreateAPIView):
+    authentication_classes = [JWTStatelessUserAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = TelegramClientSerializer
 
 
 class BoWebHooktView(APIView):
@@ -20,6 +31,7 @@ class BoWebHooktView(APIView):
             return Response(
                 {"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED
             )
+        print(request.data)
         update = types.Update.de_json(request.data)
         bot.process_new_updates([update])
         return Response({"success": True})
@@ -95,7 +107,6 @@ def news(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_button_click(call):
-    res = None
     try:
         data = json.loads(call.data)
     except Exception:
@@ -148,7 +159,6 @@ def handle_button_click(call):
 
 
 def pagination(page: int, max_page: int, data: dict, btn_url: dict = None):
-
     buttons = []
     if page > 1:
         buttons.append(

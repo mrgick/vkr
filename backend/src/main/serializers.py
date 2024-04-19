@@ -11,6 +11,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import Token
 
 from shop.models import Cart
+from tgbot.models import TelegramClient
 
 
 class CookieTokenRefreshSerializer(TokenRefreshSerializer):
@@ -143,15 +144,16 @@ class ResetPasswordConfirmationSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        tg = TelegramClient.objects.filter(user_id=data["id"]).first()
+        if tg is not None:
+            data["tg_username"] = tg.username
+        return data
+
     class Meta:
         model = User
-        fields = (
-            "id",
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-        )
+        fields = ("id", "username", "email", "first_name", "last_name")
         read_only_fields = ("id", "username")
 
 
