@@ -8,3 +8,4 @@ psycopg2-binary==2.9.9
 pillow==10.0.1
 django-cloudinary-storage==0.3.0 
 pyTelegramBotAPI==4.17.0
+gunicorn==22.0.0
