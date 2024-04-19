@@ -33,6 +33,12 @@ const Contacts = (props) => {
             </td>
           </tr>
           <tr>
+            <td>Телеграм бот</td>
+            <td>
+            <a href="https://t.me/dice_harmony_bot">Dice Harmony Bot</a>
+            </td>
+          </tr>
+          <tr>
             <td>Адрес</td>
             <td>
               <address>улица Труда, 54, Псков, 180019</address>
