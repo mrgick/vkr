@@ -14,6 +14,7 @@ from rest_framework_simplejwt.authentication import JWTStatelessUserAuthenticati
 
 from main.redis import delete_cache
 from main.serializers import Pagination
+from tgbot.bot import tg_send_order
 
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
 from .serializers import (
@@ -130,6 +131,7 @@ class OrdersView(ListAPIView):
             client_id=request.user.id, status=0, count=cart.count, total=cart.total
         )
         order.save()
+        order_items = []
         for cart_item in CartItem.objects.filter(cart=cart):
             order_item = OrderItem(
                 order=order,
@@ -138,9 +140,12 @@ class OrdersView(ListAPIView):
                 total=cart_item.total,
             )
             order_item.calculate()
+            order_items.append(order_item)
             cart_item.delete()
         order.calculate()
         cart.save()
+
+        tg_send_order(request.user.id, order, order_items)
         return Response(data={"detail": "success"}, status=201)
 
 

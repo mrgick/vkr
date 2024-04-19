@@ -28,6 +28,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+if os.environ.get("DEBUG"):
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -163,7 +165,7 @@ CLOUDINARY_STORAGE = {
 
 # STATIC_URL = "static/"
 STATIC_URL = "static/"
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+STATICFILES_STORAGE = "cloudinary_storage.storage.StaticHashedCloudinaryStorage"
 
 # Media files
 # https://docs.djangoproject.com/en/4.2/topics/files/

@@ -20,6 +20,7 @@ from news.models import News
 from news.serializers import NewsSerializer
 from shop.models import Category, Order, Product
 from shop.serializers import CategorySerializer
+from tgbot.bot import tg_send_update_order
 
 from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (
@@ -240,3 +241,8 @@ class OrderUpdateView(UpdateAPIView):
     permission_classes = [IsStuffUser]
     serializer_class = OrderUpdateSerializer
     queryset = Order.objects.all()
+
+    def perform_update(self, serializer):
+        data = super().perform_update(serializer)
+        tg_send_update_order(serializer.instance)
+        return data
