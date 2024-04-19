@@ -2,6 +2,7 @@ import json
 
 import telebot
 from django.conf import settings
+from django.core.mail import send_mail
 from prettytable import PrettyTable
 from telebot import types
 from telebot.util import quick_markup
@@ -295,11 +296,20 @@ def tg_send_order(user_id, order: Order, order_items: list[OrderItem]):
     markup = quick_markup(
         {"Мои заказы": {"callback_data": json.dumps({"orders": True, "page": 1})}}
     )
+    table = order_to_table(order, order_items)
     bot.send_message(
         user.chat_id,
-        f"Cоздан заказ *#{order.id}* от {order.date.date()}\nСтатус - {order.get_status_display()}\n\u200B\n```{order_to_table(order, order_items)}```",
+        f"Создан заказ *#{order.id}* от {order.date.date()}\nСтатус - {order.get_status_display()}\n\u200B\n```{table}```",
         parse_mode="markdown",
         reply_markup=markup,
+    )
+    message = f"<html><body><div>Создан заказ #{order.id} от {order.date.date()}</div><div>Статус - {order.get_status_display()}</div><br/>{table.get_html_string()}</body></html>"
+    send_mail(
+        f"Создан заказ #{order.id}",
+        message,
+        settings.EMAIL_HOST_USER,
+        [user.user.email],
+        html_message=message,
     )
 
 
@@ -315,4 +325,10 @@ def tg_send_update_order(order: Order):
         f'Статус заказа *#{order.id}* изменился на "{order.get_status_display()}"',
         parse_mode="markdown",
         reply_markup=markup,
+    )
+    send_mail(
+        f"Статус заказа #{order.id} изменился",
+        f'Статус заказа #{order.id} изменился на "{order.get_status_display()}"',
+        settings.EMAIL_HOST_USER,
+        [user.user.email],
     )
