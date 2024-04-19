@@ -26,10 +26,10 @@ from .permissions import IsAdminUser, IsStuffUser
 from .serializers import (
     AdminTokenObtainPairSerializer,
     CookieAdminTokenRefreshSerializer,
+    CRMProductSerializer,
     OrderItemSerializer,
     OrderListSerializer,
     OrderUpdateSerializer,
-    ProductSerializer,
     UserSerializer,
 )
 
@@ -167,7 +167,7 @@ class ProductListView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsStuffUser]
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = CRMProductSerializer
     pagination_class = Pagination
     filter_backends = [SearchFilter]
     search_fields = ["id", "title"]
@@ -182,7 +182,7 @@ class ProductListView(ListCreateAPIView):
 class ProductItemView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsStuffUser]
-    serializer_class = ProductSerializer
+    serializer_class = CRMProductSerializer
     queryset = Product.objects.all()
     CACHE_KEY_PREFIX = "products"
 

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "cloudinary_storage",
     "django.contrib.staticfiles",
     "cloudinary",
+    "drf_yasg",
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt",
@@ -196,3 +197,11 @@ TELEGRAM_WEBHOOK_TOKEN = os.environ["TELEGRAM_WEBHOOK_TOKEN"]
 
 PRODUCT_LINK = os.environ["PRODUCT_LINK"]
 NEWS_LINK = os.environ["NEWS_LINK"]
+
+# Swagger
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    }
+}

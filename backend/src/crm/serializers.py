@@ -41,7 +41,7 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ("password",)
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class CRMProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"

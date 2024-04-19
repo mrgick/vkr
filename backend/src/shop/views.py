@@ -19,6 +19,7 @@ from tgbot.bot import tg_send_order
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review
 from .serializers import (
     CartItemChangeSerializer,
+    CartProductsSerializer,
     CartSerializer,
     CategorySerializer,
     OrderSerializer,
@@ -106,6 +107,7 @@ class CartRead(RetrieveAPIView):
 class CartProducts(GenericAPIView):
     authentication_classes = [JWTStatelessUserAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = CartProductsSerializer
 
     def get(self, request):
         cart = Cart.objects.filter(client=self.request.user.id).first()

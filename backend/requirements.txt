@@ -10,3 +10,4 @@ django-cloudinary-storage==0.3.0
 pyTelegramBotAPI==4.17.0
 gunicorn==22.0.0
 prettytable==3.10.0
+drf-yasg==1.21.7 
