@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "https://api.dice-harmony.ru";
+export const API_URL = "http://127.0.0.1:8000";
 
 export const resolve = async (promise) => {
   const resolved = {

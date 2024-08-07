@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_API_URL = "https://api.dice-harmony.ru";
+export const BASE_API_URL = "http://localhost:8000";
 export const API_URL = BASE_API_URL + "/crm";
 export const CLIENT_URL = "https://dice-harmony.ru";
 

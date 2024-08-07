@@ -1,21 +1,17 @@
 import styles from "./OrderView.module.css";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Title,
-  Button,
   Form,
   Input,
   FormGroup,
-  FormError,
   Label,
   FormLink,
-  TextArea,
   Select,
-  Image,
 } from "../../components/uiKit";
 import Layout from "../../components/Layout/Layout";
-import { apiShop, toErrorsList } from "../../api";
+import { apiShop } from "../../api";
 
 const OrderView = (props) => {
   let { id } = useParams();
